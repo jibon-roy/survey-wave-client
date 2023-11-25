@@ -2,7 +2,7 @@
 
 const CustomHeader = ({ name, subject, children }) => {
     return (
-        <div className="flex flex-col text-center w-full mb-20">
+        <div className="flex flex-col text-center w-full mb-10">
             <h2 className="text-2xl text-primary-main  tracking-widest font-semibold title-font mb-1">
                 {name}
             </h2>

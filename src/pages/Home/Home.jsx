@@ -1,5 +1,6 @@
 import Banner from "./Banner/Banner";
 import FeaturedSurveys from "./Featured/FeaturedSurveys";
+import HowItWorks from "./HowItWorks/HowItWorks";
 import LatestSurveys from "./LatestSurveys/LatestSurveys";
 
 
@@ -14,6 +15,9 @@ const Home = () => {
             </section>
             <section>
                 <LatestSurveys></LatestSurveys>
+            </section>
+            <section>
+                <HowItWorks></HowItWorks>
             </section>
         </>
     );

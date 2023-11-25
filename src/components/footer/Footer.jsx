@@ -25,7 +25,7 @@ const Footer = () => {
                                 <Link className="hover:underline text-sm hover:text-[#38B6FF]">Most voted surveys</Link>
                             </li>
                             <li>
-                                <Link className="hover:underline text-sm hover:text-[#38B6FF]">Recent Surveys</Link>
+                                <Link className="hover:underline text-sm hover:text-[#38B6FF]">Latest Surveys</Link>
                             </li>
                         </nav>
                     </div>

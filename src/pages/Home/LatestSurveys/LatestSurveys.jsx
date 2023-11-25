@@ -4,14 +4,15 @@ import PrimaryBtn from "../../../components/PrimaryBtn/PrimaryBtn";
 import CustomHeader from "../../../components/customHeader/CustomHeader";
 
 
-const FeaturedSurveys = () => {
+const LatestSurveys = () => {
     return (
-        <section className="text-gray-600 body-font">
+        <section className="bg-primary-bg2 body-font">
             <div className="container px-5 py-24 mx-auto">
-                <CustomHeader name='Featured' subject='Most Voted Surveys'>
-                    Discover the pulse of popular opinions with our &#39;Most Voted Surveys&#39; feature.
-                    Engage in trending topics and witness the dynamic landscape of community perspectives.
-                    From product preferences to service feedback, stay connected to influential insights.
+                <CustomHeader name='Latest' subject='Most Latest Surveys'>
+                    Stay in the know with our &#39;Most Latest Surveys&#39; feature. Explore the freshest insights as
+                    users actively contribute to evolving discussions. From cutting-edge products to trending topics,
+                    dive into the most recent sentiments. Survey Wave keeps you connected to the pulse of current opinions,
+                    shaping the conversation in real-time.
                 </CustomHeader>
                 <Cards></Cards>
                 <div className="text-center mt-10">
@@ -29,4 +30,5 @@ const FeaturedSurveys = () => {
     );
 };
 
-export default FeaturedSurveys;
+export default LatestSurveys;
+

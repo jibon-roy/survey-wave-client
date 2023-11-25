@@ -7,7 +7,7 @@ export default {
   theme: {
     colors: {
       'primary-main': '#009EFF',
-      'primary-btn': '#87CEFA',
+      'primary-bg2': '#E1ECF2',
       'primary-text': '#0300303',
       'primary-bg': '#F5F5F5',
     },

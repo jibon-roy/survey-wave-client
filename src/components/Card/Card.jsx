@@ -40,7 +40,7 @@ const Card = () => {
                             <SmsOutlinedIcon className='hover:text-primary-main transition'></SmsOutlinedIcon>{5}
                         </div>
                     </div>
-                    <a className="text-blue-500 inline-flex items-center my-2">
+                    <div className="text-blue-500 inline-flex items-center my-2">
                         <PrimaryBtn>
                             <Link to='/h' className='flex items-center'>
                                 Learn More
@@ -49,7 +49,7 @@ const Card = () => {
                                 </svg>
                             </Link>
                         </PrimaryBtn>
-                    </a>
+                    </div>
                 </div>
             </div>
         </div>

@@ -1,0 +1,42 @@
+[
+    {
+        "id": 1,
+        "name": "Alice Johnson",
+        "role": "Marketing Manager",
+        "comment": "Survey Wave made gathering feedback a breeze. The real-time analytics and customization options exceeded our expectations. A must for data-driven decision-making!",
+        "star": 5,
+        "avatar": "https://www.constructionweekonline.com/cloud/2021/07/07/Dubai_Hayek_E_Master.jpg"
+    },
+    {
+        "id": 2,
+        "name": "Bob Smith",
+        "role": "Product Designer",
+        "comment": "Crafting surveys was effortless with Survey Wave. The instant analysis and community engagement features added tremendous value to our user research efforts.",
+        "star": 4,
+        "avatar": "https://www.thebusinessdesk.com/_files/images/jan_23/Tom-Durrant-1-e1674223848421.jpg"
+    },
+    {
+        "id": 3,
+        "name": "Eva Rodriguez",
+        "role": "Business Owner",
+        "comment": "Connectivity with participants was seamless. The customization options allowed us to maintain brand consistency, making Survey Wave an indispensable tool for our customer insights.",
+        "star": 5,
+        "avatar": "https://images.law.com/contrib/content/uploads/sites/378/2022/11/Graeme-Slattery-767x633.jpg"
+    },
+    {
+        "id": 4,
+        "name": "Charlie Brown",
+        "role": "UX Researcher",
+        "comment": "Survey Wave's user-friendly interface and real-time engagement transformed our research process. The ability to foster discussions and gather instant insights is a game-changer.",
+        "star": 4,
+        "avatar": "https://www.syridexbio.com/wp-content/uploads/2023/02/Squire_DSC0288-e1675302426449.jpg"
+    },
+    {
+        "id": 5,
+        "name": "Diana Lee",
+        "role": "Customer Success",
+        "comment": "Survey Wave's customization options and 24/7 support have greatly benefited our client satisfaction initiatives. A valuable platform that consistently delivers exceptional results.",
+        "star": 5,
+        "avatar": "https://static.flashscore.com/res/image/data/fPmRDm1g-GjxXpO7n.png"
+    }
+]

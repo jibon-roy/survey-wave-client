@@ -1,18 +1,23 @@
 import { Button } from "@mui/material";
+import { TypeAnimation } from "react-type-animation";
 
 
 
 const Banner = () => {
     return (
         <div>
-            <div className="md:flex relative min-h-[70vh] justify-between items-center">
-                <img src="/bg.webp" className="absolute z-0 opacity-10 w-full h-[70vh] top-0 max-md:-top-10 left-0"></img>
+            <div className="md:flex relative min-h-[60vh] justify-between items-center">
+                <img src="/bg.webp" className="absolute z-0 opacity-10 w-full h-[70vh] md:h-[60vh] top-0 max-md:-top-10 left-0"></img>
                 <div className="flex md:w-[50%] h-full items-center px-4 max-md:justify-center max-md:my-10">
                     <div >
-                        <p className="text-2xl font-semibold">The Survey Wave</p>
+                        <img src="./logo.png" className="w-52 max-md:mx-auto block " alt="" />
                         <br />
-                        <p className="text-4xl font-semibold text-primary-main">
-                            Start Today&#39;s Survey.
+                        <p className="text-xl font-semibold text-primary-main">
+                            <TypeAnimation
+                                sequence={["Start Today's Survey.", 500, 'Made Your Survey Journey', 500,]}
+                                style={{ fontSize: '2em' }}
+                                repeat={Infinity}
+                            />
                         </p>
                         <br />
                         <p>

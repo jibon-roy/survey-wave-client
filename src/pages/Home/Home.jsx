@@ -2,6 +2,7 @@ import Banner from "./Banner/Banner";
 import FeaturedSurveys from "./Featured/FeaturedSurveys";
 import HowItWorks from "./HowItWorks/HowItWorks";
 import LatestSurveys from "./LatestSurveys/LatestSurveys";
+import Testimonials from "./Testimonials/Testimonials";
 
 
 const Home = () => {
@@ -18,6 +19,9 @@ const Home = () => {
             </section>
             <section>
                 <HowItWorks></HowItWorks>
+            </section>
+            <section>
+                <Testimonials></Testimonials>
             </section>
         </>
     );

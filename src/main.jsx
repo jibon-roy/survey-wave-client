@@ -7,11 +7,13 @@ import router from './routes/router'
 import CustomThemeProvider from './utility/theme/CustomThemeProvider'
 
 
+
+
 ReactDOM.createRoot(document.getElementById('root')).render(
 
   <React.StrictMode>
     <CustomThemeProvider>
-      <div className='max-w-[1400px] mx-auto'>
+      <div className='max-w-[1400px] mx-auto bg-[#F5F5F5]'>
         <RouterProvider router={router} />
       </div>
     </CustomThemeProvider>

@@ -13,8 +13,10 @@ ReactDOM.createRoot(document.getElementById('root')).render(
 
   <React.StrictMode>
     <CustomThemeProvider>
-      <div className='max-w-[1400px] min-h-screen text-[#0300303] mx-auto bg-[#F5F5F5]'>
-        <RouterProvider router={router} />
+      <div className='text-[#0300303] bg-[#F5F5F5]'>
+        <div className='max-w-[1400px] min-h-screen mx-auto '>
+          <RouterProvider router={router} />
+        </div>
       </div>
     </CustomThemeProvider>
   </React.StrictMode>,

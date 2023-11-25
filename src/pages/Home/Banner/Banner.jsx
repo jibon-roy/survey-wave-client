@@ -11,7 +11,7 @@ const Banner = () => {
                     <div >
                         <p className="text-2xl font-semibold">The Survey Wave</p>
                         <br />
-                        <p className="text-4xl font-semibold">
+                        <p className="text-4xl font-semibold text-primary-main">
                             Start Today&#39;s Survey.
                         </p>
                         <br />

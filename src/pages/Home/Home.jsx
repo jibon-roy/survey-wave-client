@@ -1,4 +1,5 @@
 import Banner from "./Banner/Banner";
+import Faq from "./Faq/Faq";
 import FeaturedSurveys from "./Featured/FeaturedSurveys";
 import HowItWorks from "./HowItWorks/HowItWorks";
 import LatestSurveys from "./LatestSurveys/LatestSurveys";
@@ -22,6 +23,9 @@ const Home = () => {
             </section>
             <section>
                 <Testimonials></Testimonials>
+            </section>
+            <section>
+                <Faq></Faq>
             </section>
         </>
     );

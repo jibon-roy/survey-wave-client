@@ -54,7 +54,7 @@ export default function Navbar(props) {
 
     const pages = <>
         <div className='link font-semibold text-lg'><NavLink to='/'><button className='p-2'>Home</button></NavLink></div>
-        <div className='link font-semibold text-lg'><NavLink to='/dash'><button className='p-2'>Home</button></NavLink></div>
+        <div className='link font-semibold text-lg'><NavLink to='/allSurvey'><button className='p-2'>All Survey</button></NavLink></div>
         <div className='link font-semibold text-lg'><NavLink to='/dash'><button className='p-2'>Home</button></NavLink></div>
     </>
     // Settings for Profile

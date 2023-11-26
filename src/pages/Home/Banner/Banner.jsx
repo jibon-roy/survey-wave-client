@@ -1,4 +1,5 @@
 import { Button } from "@mui/material";
+import moment from "moment/moment";
 import { TypeAnimation } from "react-type-animation";
 
 
@@ -20,6 +21,11 @@ const Banner = () => {
                             />
                         </p>
                         <br />
+                        <div className="font-bold text-xl">
+                            {'Today: ' +
+                                moment().utcOffset(0, true).format("MMMM DD YYYY")
+                            }
+                        </div>
                         <p>
                             Survey Wave is your go-to platform for seamless and insightful surveys. Empower your decision-making with user-friendly surveys, real-time analytics, and customizable features for a comprehensive data-driven experience.
                         </p>

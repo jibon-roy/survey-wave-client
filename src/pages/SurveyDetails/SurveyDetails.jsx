@@ -4,7 +4,7 @@ import Swal from "sweetalert2";
 import { ThumbDownAltOutlined } from '@mui/icons-material';
 import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
 import SmsOutlinedIcon from '@mui/icons-material/SmsOutlined';
-
+import ReportGmailerrorredIcon from '@mui/icons-material/ReportGmailerrorred';
 const SurveyDetails = () => {
 
     const [selectedOption, setSelectedOption] = useState(null);
@@ -26,6 +26,27 @@ const SurveyDetails = () => {
                 confirmButtonColor: "#009EFF",
             });
         }
+    }
+
+    const reportButton = () => {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You want to report this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#009EFF",
+            confirmButtonText: "Yes, Report!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire({
+                    title: "Reported!",
+                    text: "Your feedback successfull.",
+                    confirmButtonColor: "#009EFF",
+                    icon: "success"
+                });
+            }
+        });
     }
 
     return (
@@ -51,6 +72,9 @@ const SurveyDetails = () => {
                             </div>
                             <div className='flex gap-1'>
                                 <SmsOutlinedIcon className='hover:text-primary-main cursor-pointer transition'></SmsOutlinedIcon>{5}
+                            </div>
+                            <div onClick={reportButton} className='flex gap-1 hover:text-red-500 text-red-600 cursor-pointer'>
+                                <ReportGmailerrorredIcon className='cursor-pointer transition'></ReportGmailerrorredIcon>Report Issue
                             </div>
                         </div>
                     </div>

@@ -18,6 +18,7 @@ import { Link, NavLink } from 'react-router-dom';
 import { Grid } from '@mui/material';
 import MyDrawer from './MyDrawer';
 import './nav.css'
+import PrimaryBtn from '../PrimaryBtn/PrimaryBtn';
 
 function HideOnScroll(props) {
 
@@ -51,18 +52,16 @@ export default function Navbar(props) {
         setAnchorElUser(null);
     };
 
-
     const pages = <>
         <div className='link font-semibold text-lg'><NavLink to='/'><button className='p-2'>Home</button></NavLink></div>
         <div className='link font-semibold text-lg'><NavLink to='/allSurvey'><button className='p-2'>All Survey</button></NavLink></div>
-        <div className='link font-semibold text-lg'><NavLink to='/SurveyDetails'><button className='p-2'>Details</button></NavLink></div>
+        <div className='link font-semibold text-lg'><NavLink to='/surveyDetails'><button className='p-2'>Details</button></NavLink></div>
+        <div className='link font-semibold text-lg'><NavLink to='/pricing'><button className='p-2'>Pricing</button></NavLink></div>
     </>
     // Settings for Profile
     const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
-
     return (
-
         <React.Fragment>
             <CssBaseline />
             <HideOnScroll {...props}>
@@ -77,7 +76,6 @@ export default function Navbar(props) {
                                     <img src='/logo.png' className='w-40'></img>
                                 </Link>
                             </Grid>
-
 
                             <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
 
@@ -96,14 +94,17 @@ export default function Navbar(props) {
                                     <img src='/logo.png' className='w-40'></img>
                                 </Link>
                             </Grid>
-
-
                             <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, justifyContent: 'center' }}>
                                 {pages}
                             </Box>
 
                             <Box sx={{ flexGrow: 0 }}>
                                 <Tooltip title="Open settings">
+                                    <Link to='/login' className='mr-4'>
+                                        <PrimaryBtn>
+                                            Login
+                                        </PrimaryBtn>
+                                    </Link>
                                     <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                                         <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
                                     </IconButton>
@@ -124,6 +125,7 @@ export default function Navbar(props) {
                                     open={Boolean(anchorElUser)}
                                     onClose={handleCloseUserMenu}
                                 >
+
                                     {settings.map((setting) => (
                                         <MenuItem key={setting} sx={{ color: primary.text }} onClick={handleCloseUserMenu}>
                                             <Typography color="text.primary" textAlign="center">{setting}</Typography>

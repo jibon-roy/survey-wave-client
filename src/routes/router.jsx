@@ -6,6 +6,9 @@ import SurveyDetails from "../pages/SurveyDetails/SurveyDetails";
 import Pricing from "../pages/Pricing/Pricing";
 import Login from "../pages/LogIn/Login";
 import SignUp from "../pages/SignUp/SignUp";
+import PublicRouter from "./PublicRouter";
+import PaymentPage from "../pages/payment/PaymentPage";
+import PrivetRoute from "./PrivetRoute";
 
 
 
@@ -30,16 +33,21 @@ const router = createBrowserRouter([
                 path: '/pricing',
                 element: <Pricing></Pricing>
             },
+            {
+                path: '/payment',
+                element: <PrivetRoute><PaymentPage></PaymentPage></PrivetRoute>
+            },
         ]
     },
     {
         path: '/login',
-        element: <Login></Login>
+        element: <PublicRouter><Login></Login></PublicRouter>
     },
     {
         path: '/signUp',
-        element: <SignUp></SignUp>
+        element: <PublicRouter><SignUp></SignUp></PublicRouter>
     },
+
 ])
 
 export default router;

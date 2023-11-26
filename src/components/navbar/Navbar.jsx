@@ -120,7 +120,7 @@ export default function Navbar(props) {
                                     <>
                                         <Tooltip title="Open settings">
                                             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                                                {user ? user?.photoURL ? <img className='w-[50px] rounded-full' src={user?.photoURL}></img> : <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" /> : <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />}
                                             </IconButton>
                                         </Tooltip>
                                         <Menu

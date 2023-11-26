@@ -25,7 +25,8 @@ const AuthProvider = ({ children }) => {
                     const name = result.user.displayName;
                     const email = result.user.email;
                     const image = result.user.photoURL;
-                    const userData = { name, email, image }
+                    const roll = 'user'
+                    const userData = { name, email, image, roll }
                     axiosPublic.post('/newUser', userData)
                         .then(res => {
                             if (res) {

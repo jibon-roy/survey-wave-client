@@ -30,7 +30,8 @@ const SignUp = () => {
         const name = data.name;
         const image = data.image;
         const password = data.password;
-        const userData = { name, email, image }
+        const roll = 'user'
+        const userData = { name, email, image, roll }
 
         createUserWithEmailPass(email, password)
             .then(result => {

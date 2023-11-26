@@ -1,12 +1,15 @@
+import { Link } from "react-router-dom";
+import CustomHeader from "../../components/customHeader/CustomHeader";
 
 
 const Pricing = () => {
+    const pro = 38;
+    const special = 50;
     return (
         <div>
-
-            <section className="bg-gray-100 py-16">
+            <section className="bg-gray-100 mt-10 py-16">
                 <div className="container px-2 mx-auto">
-                    <h2 className="text-3xl font-semibold text-center text-gray-800 mb-8">Choose a Plan</h2>
+                    <CustomHeader name='Our Plans' subject='Choose a Plan'></CustomHeader>
                     <div className="flex flex-col mx-auto max-md:items-center md:flex-row md:justify-center gap-8">
                         {/* Free Plan */}
                         <div className="flex-1 max-w-md align-bottom bg-white p-8 rounded-lg border-2">
@@ -19,9 +22,11 @@ const Pricing = () => {
                                 <li>Limited Responses</li>
                                 <li>Free Account</li>
                             </ul>
-                            <button className="bg-primary-main hover:bg-blue-500 text-white w-full rounded-full py-2 px-6 focus:outline-none">
-                                Get Started
-                            </button>
+                            <Link to='/signUp'>
+                                <button className="bg-primary-main hover:bg-blue-500 text-white w-full rounded-full py-2 px-6 focus:outline-none">
+                                    Get Started
+                                </button>
+                            </Link>
                         </div>
 
                         {/* Pro Plan */}
@@ -35,9 +40,11 @@ const Pricing = () => {
                                 <li>Priority Support</li>
                                 <li>Custom Branding</li>
                             </ul>
-                            <button className="bg-primary-main hover:bg-blue-500 text-white w-full rounded-full py-2 px-6 focus:outline-none">
-                                Upgrade Now
-                            </button>
+                            <Link to='/payment' state={pro}>
+                                <button className="bg-primary-main hover:bg-blue-500 text-white w-full rounded-full py-2 px-6 focus:outline-none">
+                                    Upgrade Now
+                                </button>
+                            </Link>
                         </div>
 
                         {/* Special Plan */}
@@ -51,14 +58,15 @@ const Pricing = () => {
                                 <li>Premium Support</li>
                                 <li>Custom Solutions</li>
                             </ul>
-                            <button className="bg-primary-main hover:bg-blue-500 text-white w-full rounded-full py-2 px-6 focus:outline-none">
-                                Upgrade Now
-                            </button>
+                            <Link to='/payment' state={special}>
+                                <button className="bg-primary-main hover:bg-blue-500 text-white w-full rounded-full py-2 px-6 focus:outline-none">
+                                    Upgrade Now
+                                </button>
+                            </Link>
                         </div>
                     </div>
                 </div>
             </section>
-            );
 
         </div>
     );

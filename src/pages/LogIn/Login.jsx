@@ -5,18 +5,42 @@ import { FcGoogle } from "react-icons/fc";
 import { Link } from "react-router-dom";
 import CustomHeader from "../../components/customHeader/CustomHeader";
 import { Divider } from "@mui/material";
+import useAuthProvider from "../../hooks/useAuthProvider";
+import Swal from "sweetalert2";
 
 // import { TextField } from "@mui/material";
 
 
 const Login = () => {
 
+    const { logInWithEmailPass, gmailUser } = useAuthProvider()
 
     const handleSubmit = (e) => {
         e.preventDefault();
         const form = e.currentTarget;
         const email = form.email.value;
-        console.log(email)
+        const password = form.password.value;
+
+        logInWithEmailPass(email, password)
+            .then(result => {
+                if (result)
+                    if (result) {
+                        Swal.fire({
+                            title: "Log In Success!",
+                            text: "See You Again",
+                            icon: "success"
+                        }).then(location.reload());
+                    }
+
+            })
+            .catch(error => {
+                if (error)
+                    Swal.fire({
+                        title: "Opps...",
+                        text: "Something is wrong!",
+                        icon: "error"
+                    });
+            })
 
     };
 
@@ -37,6 +61,7 @@ const Login = () => {
                                 Email
                             </label>
                             <input
+                                autoComplete="on"
                                 type="email"
                                 id="email"
                                 name="email"
@@ -49,6 +74,7 @@ const Login = () => {
                                 Password
                             </label>
                             <input
+                                autoComplete="on"
                                 type="password"
                                 id="password"
                                 required
@@ -71,7 +97,7 @@ const Login = () => {
                             <Divider sx={{ fontSize: '20px' }}>or</Divider>
                         </div>
                         <div>
-                            <button className="w-full bg-gray-200 text-primary-text flex justify-center hover:bg-gray-300 border-0 py-2 px-8 focus:outline-none rounded gap-2 my-5 text-lg">Continue with<FcGoogle className="text-3xl"></FcGoogle></button>
+                            <button onClick={gmailUser} className="w-full bg-gray-200 text-primary-text flex justify-center hover:bg-gray-300 border-0 py-2 px-8 focus:outline-none rounded gap-2 my-5 text-lg">Continue with<FcGoogle className="text-3xl"></FcGoogle></button>
                         </div>
                     </div>
 

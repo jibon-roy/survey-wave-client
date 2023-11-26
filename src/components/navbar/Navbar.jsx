@@ -19,6 +19,7 @@ import { Grid } from '@mui/material';
 import MyDrawer from './MyDrawer';
 import './nav.css'
 import PrimaryBtn from '../PrimaryBtn/PrimaryBtn';
+import useAuthProvider from '../../hooks/useAuthProvider';
 
 function HideOnScroll(props) {
 
@@ -41,6 +42,8 @@ HideOnScroll.propTypes = {
 };
 
 export default function Navbar(props) {
+
+    const { user, logOut } = useAuthProvider();
     const { primary } = useCustomTheme();
     const [anchorElUser, setAnchorElUser] = React.useState(null);
     const { children } = props;
@@ -59,7 +62,7 @@ export default function Navbar(props) {
         <div className='link font-semibold text-lg'><NavLink to='/pricing'><button className='p-2'>Pricing</button></NavLink></div>
     </>
     // Settings for Profile
-    const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+    const settings = [<button key={1} onClick={logOut}>Log Out</button>];
 
     return (
         <React.Fragment>
@@ -99,50 +102,57 @@ export default function Navbar(props) {
                             </Box>
 
                             <Box sx={{ flexGrow: 0 }}>
-                                <Link to='/login' className='mr-4'>
-                                    <PrimaryBtn variant='outlined' btn>
-                                        Login
-                                    </PrimaryBtn>
-                                </Link>
-                                <Link to='/signUp' className='mr-4'>
-                                    <PrimaryBtn>
-                                        SignUp
-                                    </PrimaryBtn>
-                                </Link>
-                                <Tooltip title="Open settings">
-                                    <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                                        <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-                                    </IconButton>
-                                </Tooltip>
-                                <Menu
-                                    sx={{ mt: '0px' }}
-                                    id="menu-appbar"
-                                    anchorEl={anchorElUser}
-                                    anchorOrigin={{
-                                        vertical: 'top',
-                                        horizontal: 'right',
-                                    }}
-                                    keepMounted
-                                    transformOrigin={{
-                                        vertical: 'top',
-                                        horizontal: 'right',
-                                    }}
-                                    open={Boolean(anchorElUser)}
-                                    onClose={handleCloseUserMenu}
-                                >
+                                {!user ? <>
+                                    <Link to='/login' className='mr-4'>
+                                        <PrimaryBtn variant='outlined' btn>
+                                            Login
+                                        </PrimaryBtn>
+                                    </Link>
+                                    <Link to='/signUp' className='mr-4'>
+                                        <PrimaryBtn>
+                                            SignUp
+                                        </PrimaryBtn>
+                                    </Link>
+                                </> : ''
+                                }
 
-                                    {settings.map((setting) => (
-                                        <MenuItem key={setting} sx={{ color: primary.text }} onClick={handleCloseUserMenu}>
-                                            <Typography color="text.primary" textAlign="center">{setting}</Typography>
-                                        </MenuItem>
-                                    ))}
-                                </Menu>
+                                {user &&
+                                    <>
+                                        <Tooltip title="Open settings">
+                                            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                                                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                                            </IconButton>
+                                        </Tooltip>
+                                        <Menu
+                                            sx={{ mt: '0px' }}
+                                            id="menu-appbar"
+                                            anchorEl={anchorElUser}
+                                            anchorOrigin={{
+                                                vertical: 'top',
+                                                horizontal: 'right',
+                                            }}
+                                            keepMounted
+                                            transformOrigin={{
+                                                vertical: 'top',
+                                                horizontal: 'right',
+                                            }}
+                                            open={Boolean(anchorElUser)}
+                                            onClose={handleCloseUserMenu}
+                                        >
+
+                                            {settings.map((setting) => (
+                                                <MenuItem key={setting} sx={{ color: primary.text }} onClick={handleCloseUserMenu}>
+                                                    <Typography color="text.primary" textAlign="center">{setting}</Typography>
+                                                </MenuItem>
+                                            ))}
+                                        </Menu>
+                                    </>
+                                }
                             </Box>
                         </Toolbar>
                     </Container>
                 </AppBar>
             </HideOnScroll>
-            <Toolbar />
             <Grid sx={{ mt: 0 }}>
                 {children}
             </Grid>

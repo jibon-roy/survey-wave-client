@@ -1,12 +1,13 @@
 import { createContext, useEffect, useState } from "react";
-import { GoogleAuthProvider, createUserWithEmailAndPassword, onAuthStateChanged, signInWithPopup, signOut } from "firebase/auth";
+import { GoogleAuthProvider, createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth";
 import { auth } from "../../firebase/firebase";
 import Swal from "sweetalert2";
+import useAxiosPublic from "../../hooks/useAxiosPublic";
 
 export const AuthContext = createContext(null);
 
 const AuthProvider = ({ children }) => {
-
+    const axiosPublic = useAxiosPublic()
     const [user, setUser] = useState();
     const [loading, setLoading] = useState(true);
     const googleProvider = new GoogleAuthProvider();
@@ -19,6 +20,41 @@ const AuthProvider = ({ children }) => {
 
     const gmailUser = () => {
         return signInWithPopup(auth, googleProvider)
+            .then(result => {
+                if (result.user) {
+                    const name = result.user.displayName;
+                    const email = result.user.email;
+                    const image = result.user.photoURL;
+                    const userData = { name, email, image }
+                    axiosPublic.post('/newUser', userData)
+                        .then(res => {
+                            if (res) {
+                                Swal.fire({
+                                    title: "Log in Success!",
+                                    text: "Hey Welcome",
+                                    icon: "success"
+                                });
+                            }
+                        }).then(location.reload())
+                }
+
+            })
+            .catch(error => {
+                if (error) {
+                    // console.log(error)
+                    Swal.fire({
+                        title: "Opps...",
+                        text: "Something is wrong! 3",
+                        icon: "error"
+                    });
+                }
+
+
+            })
+    }
+
+    const logInWithEmailPass = (email, password) => {
+        return signInWithEmailAndPassword(auth, email, password)
     }
 
     // Check User
@@ -52,7 +88,7 @@ const AuthProvider = ({ children }) => {
             })
     }
 
-    const data = { createUserWithEmailPass, gmailUser, loading, user, logOut }
+    const data = { createUserWithEmailPass, logInWithEmailPass, gmailUser, loading, user, logOut }
 
     return (
         <AuthContext.Provider value={data}>

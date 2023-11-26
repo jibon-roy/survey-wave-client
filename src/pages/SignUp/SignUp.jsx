@@ -1,24 +1,68 @@
 // import { FormControl, FormHelperText, InputLabel } from '@mui/material';
 // import { Input } from 'postcss';
 import { FcGoogle } from "react-icons/fc";
-
-import { Link } from "react-router-dom";
+import { useForm } from "react-hook-form"
+import { Link, useLocation } from "react-router-dom";
 import CustomHeader from "../../components/customHeader/CustomHeader";
 import { Divider } from "@mui/material";
+import useAuthProvider from "../../hooks/useAuthProvider";
+// import axios from "axios";
+import useAxiosPublic from "../../hooks/useAxiosPublic";
+import Swal from "sweetalert2";
 
 // import { TextField } from "@mui/material";
 
 
 const SignUp = () => {
 
+    const location = useLocation();
+    const { createUserWithEmailPass, gmailUser } = useAuthProvider()
+    const axiosPublic = useAxiosPublic()
+    // const imgHostingKey = import.meta.env.VITE_IMAGE_KEY
+    // console.log(imgHostingKey)
+    // const imgHostingApi = `https://api.imgbb.com/1/upload?key=${imgHostingKey}`
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        const form = e.currentTarget;
-        const email = form.email.value;
-        console.log(email)
+    // console.log(user)
+    const { register, handleSubmit } = useForm()
+    const onSubmit = async (data) => {
+        // console.log(data);
+        const email = data.email;
+        const name = data.name;
+        const image = data.image;
+        const password = data.password;
+        const userData = { name, email, image }
 
-    };
+        createUserWithEmailPass(email, password)
+            .then(result => {
+                if (result.user) {
+                    axiosPublic.post('/newUser', userData)
+                        .then(res => {
+                            if (res) {
+                                Swal.fire({
+                                    title: "Log Out Success!",
+                                    text: "See You Again",
+                                    icon: "success"
+                                }).then(location.reload());
+                            }
+                        })
+
+                }
+            })
+            .catch(error => {
+                if (error)
+                    Swal.fire({
+                        title: "Opps...",
+                        text: "Something is wrong!",
+                        icon: "error"
+                    });
+            })
+
+    }
+
+    // const img = { image: data.image[0] }
+    // const res = await axios.post(imgHostingApi, img, { 'Content-Type': 'multipart/form-data' })
+
+    // console.log(res.data)
 
     return (
         <section className="text-gray-600 min-h-screen pb-5 body-font pt-10">
@@ -31,17 +75,17 @@ const SignUp = () => {
                 </div>
                 <div className="lg:w-2/6 md:w-1/2 mb-20 mx-auto md:mr-4 bg-gray-100 rounded-lg p-8 flex flex-col md:ml-auto w-full mt-10 border-2 border-primary-main md:mt-0">
                     <h2 className="text-gray-900 text-lg font-medium title-font mb-5">Sign Up</h2>
-                    <form onSubmit={handleSubmit}>
+                    <form onSubmit={handleSubmit(onSubmit)}>
                         <div className="relative mb-2">
                             <label htmlFor="name" className="leading-7 text-sm text-gray-600">
                                 Name
                             </label>
                             <input
+                                id='name'
+                                autoComplete="on"
                                 type="text"
-                                autoComplete="true"
-                                id="name"
-                                name="name"
                                 required
+                                {...register("name", { required: true })}
                                 className="w-full bg-white rounded border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
                             />
                         </div>
@@ -50,21 +94,22 @@ const SignUp = () => {
                                 Email
                             </label>
                             <input
+                                autoComplete="on"
+                                id='email'
                                 type="email"
-                                id="email"
-                                autoComplete="true"
-                                name="email"
                                 required
-                                className="w-full bg-white rounded border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 text-base outline-none text-primary-bg2 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+                                {...register("email", { required: true })}
+                                className="w-full bg-white rounded border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
                             />
                         </div>
 
-                        <label className="leading-7 text-sm text-gray-600" htmlFor="file_input">Upload Profile Picture</label>
+                        <label className="leading-7 text-sm text-gray-600" htmlFor="file_input">Image Url</label>
                         <input
+                            id='file_input'
+                            {...register("image", { required: true })}
                             required
-                            accept="image/*"
-                            className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-primary-main dark:border-gray-600 dark:placeholder-gray-400" id="file_input"
-                            type="file" />
+                            className="w-full bg-white rounded border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+                            type="link" />
 
                         <div className="relative mb-2">
                             <label htmlFor="password" className="leading-7 text-sm text-gray-600">
@@ -73,8 +118,9 @@ const SignUp = () => {
                             <input
                                 type="password"
                                 id="password"
-                                required
+                                {...register("password", { required: true })}
                                 name="password"
+                                required
                                 className="w-full bg-white rounded border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
                             />
                         </div>
@@ -93,7 +139,7 @@ const SignUp = () => {
                             <Divider sx={{ fontSize: '20px' }}>or</Divider>
                         </div>
                         <div>
-                            <button className="w-full bg-gray-200 text-primary-text flex justify-center hover:bg-gray-300 border-0 py-2 px-8 focus:outline-none rounded gap-2 my-5 text-lg">Continue with<FcGoogle className="text-3xl"></FcGoogle></button>
+                            <button onClick={gmailUser} className="w-full bg-gray-200 text-primary-text flex justify-center hover:bg-gray-300 border-0 py-2 px-8 focus:outline-none rounded gap-2 my-5 text-lg">Continue with<FcGoogle className="text-3xl"></FcGoogle></button>
                         </div>
                     </div>
 

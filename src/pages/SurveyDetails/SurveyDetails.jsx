@@ -41,7 +41,7 @@ const SurveyDetails = () => {
             if (result.isConfirmed) {
                 Swal.fire({
                     title: "Reported!",
-                    text: "Your feedback successfull.",
+                    text: "Your feedback successful.",
                     confirmButtonColor: "#009EFF",
                     icon: "success"
                 });

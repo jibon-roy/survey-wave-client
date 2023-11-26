@@ -1,5 +1,5 @@
 import { Button } from "@mui/material";
-
+import { PropTypes } from "prop-types";
 
 const PrimaryBtn = ({ children, variant, main, btn }) => {
     return (
@@ -10,5 +10,9 @@ const PrimaryBtn = ({ children, variant, main, btn }) => {
         </Button>
     );
 };
+
+PrimaryBtn.propTypes = {
+    children: PropTypes.node.isRequired
+}
 
 export default PrimaryBtn;

@@ -99,12 +99,17 @@ export default function Navbar(props) {
                             </Box>
 
                             <Box sx={{ flexGrow: 0 }}>
+                                <Link to='/login' className='mr-4'>
+                                    <PrimaryBtn variant='outlined' btn>
+                                        Login
+                                    </PrimaryBtn>
+                                </Link>
+                                <Link to='/signUp' className='mr-4'>
+                                    <PrimaryBtn>
+                                        SignUp
+                                    </PrimaryBtn>
+                                </Link>
                                 <Tooltip title="Open settings">
-                                    <Link to='/login' className='mr-4'>
-                                        <PrimaryBtn>
-                                            Login
-                                        </PrimaryBtn>
-                                    </Link>
                                     <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                                         <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
                                     </IconButton>

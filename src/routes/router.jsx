@@ -5,6 +5,7 @@ import AllSurvey from "../pages/AllSurvey/AllSurvey";
 import SurveyDetails from "../pages/SurveyDetails/SurveyDetails";
 import Pricing from "../pages/Pricing/Pricing";
 import Login from "../pages/LogIn/Login";
+import SignUp from "../pages/SignUp/SignUp";
 
 
 
@@ -34,6 +35,10 @@ const router = createBrowserRouter([
     {
         path: '/login',
         element: <Login></Login>
+    },
+    {
+        path: '/signUp',
+        element: <SignUp></SignUp>
     },
 ])
 

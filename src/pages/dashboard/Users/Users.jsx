@@ -1,90 +1,74 @@
+// import { useQuery } from "@tanstack/react-query";
 import CustomHeader from "../../../components/customHeader/CustomHeader";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import UserDetails from "./UserDetails";
+import { useEffect, useState } from "react";
 
 
 const Users = () => {
+    const [filter, setFilter] = useState('allUsers');
+    const [data, setData] = useState()
+
+
+    const axiosSecure = useAxiosSecure();
+
+    // const { data, isLoading, refetch } = useQuery({
+    //     queryKey: ['users'],
+    //     queryFn: async () => {
+    //         const res = await axiosSecure.post('/allUsers', { role: filter });
+    //         return res.data;
+    //     }
+    // })
+
+    useEffect(() => {
+        axiosSecure.post('/allUsers', { role: filter })
+            .then(res => setData(res.data))
+    }, [axiosSecure, filter])
+
+
     return (
         <div>
             <CustomHeader name={'Admin Panel'} subject={'Manage All Users'}></CustomHeader>
             <div className="w-full h-px bg-primary-text -mt-10 mb-10"></div>
 
-
-            <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+            {/* {isLoading ? 'Loading Users Data ...' : */}
+            <div className="relative overflow-x-auto mb-10 shadow-md sm:rounded-lg">
                 <table className="w-full text-sm text-left rtl:text-right text-primary-text dark:text-gray-400">
-                    <thead className="text-xs text-primary-bg uppercase bg-primary-main dark:text-primary-bg dark:text-gray-400">
+                    <thead className="text-md text-primary-bg uppercase bg-primary-main dark:text-primary-bg">
                         <tr>
                             <th scope="col" className="px-6 py-3">
-                                User name
+                                User
                             </th>
                             <th scope="col" className="px-6 py-3">
-                                Color
+                                Name
                             </th>
                             <th scope="col" className="px-6 py-3">
-                                Category
+                                Email
                             </th>
-                            <th scope="col" className="px-6 py-3">
-                                Price
+
+                            <th scope="col" className="text-primary-text">
+                                <span className="text-primary-bg mr-2">Filter:</span>
+                                <select value={filter} onChange={(e) => { setFilter(e.target.value) }} className="p-0 pl-1 font-medium" >
+                                    <option defaultChecked value="allUsers">All Users</option>
+                                    <option value="admin">Admin</option>
+                                    <option value="surveyor">Surveyor</option>
+                                    <option value="pro">Paid</option>
+                                    <option value="user">User</option>
+                                </select>
                             </th>
                             <th scope="col" className="px-6 text-right py-3">
-                                Edit
+                                Action
                             </th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                            <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                Apple MacBook Pro 17
-                            </th>
-                            <td className="px-6 py-4">
-                                Silver
-                            </td>
-                            <td className="px-6 py-4">
-                                Laptop
-                            </td>
-                            <td className="px-6 py-4">
-                                $2999
-                            </td>
-                            <td className="px-6 py-4 text-right">
-                                <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                            </td>
-                        </tr>
-                        <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                            <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                Microsoft Surface Pro
-                            </th>
-                            <td className="px-6 py-4">
-                                White
-                            </td>
-                            <td className="px-6 py-4">
-                                Laptop PC
-                            </td>
-                            <td className="px-6 py-4">
-                                $1999
-                            </td>
-                            <td className="px-6 py-4 text-right">
-                                <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                            </td>
-                        </tr>
-                        <tr className="bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-600">
-                            <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                Magic Mouse 2
-                            </th>
-                            <td className="px-6 py-4">
-                                Black
-                            </td>
-                            <td className="px-6 py-4">
-                                Accessories
-                            </td>
-                            <td className="px-6 py-4">
-                                $99
-                            </td>
-                            <td className="px-6 py-4 text-right">
-                                <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                            </td>
-                        </tr>
+                        {
+                            data?.map((user, index) => <UserDetails key={user?._id} user={user} index={index}></UserDetails>)
+                        }
                     </tbody>
                 </table>
             </div>
-
+            {/* } */}
         </div>
     );
 };

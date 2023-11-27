@@ -2,7 +2,7 @@
 // import { Input } from 'postcss';
 import { FcGoogle } from "react-icons/fc";
 import { useForm } from "react-hook-form"
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import CustomHeader from "../../components/customHeader/CustomHeader";
 import { Divider } from "@mui/material";
 import useAuthProvider from "../../hooks/useAuthProvider";
@@ -18,7 +18,6 @@ import { updateProfile } from "firebase/auth";
 
 const SignUp = () => {
 
-    const location = useLocation();
     const { createUserWithEmailPass, gmailUser } = useAuthProvider()
     const axiosPublic = useAxiosPublic()
     // const imgHostingKey = import.meta.env.VITE_IMAGE_KEY
@@ -34,7 +33,7 @@ const SignUp = () => {
         const image = data.image;
         const password = data.password;
         const role = 'user'
-        const userData = { name, email, image, roll }
+        const userData = { name, email, image, role }
 
         createUserWithEmailPass(email, password)
             .then(result => {
@@ -42,13 +41,13 @@ const SignUp = () => {
                     updateProfile(auth.currentUser, {
                         displayName: name,
                         photoURL: image
-                    }).then(location.reload()).catch()
+                    })
                     axiosPublic.post('/newUser', userData)
                         .then(res => {
                             if (res) {
                                 Swal.fire({
-                                    title: "Log Out Success!",
-                                    text: "See You Again",
+                                    title: "Log In Success!",
+                                    text: "Welcome",
                                     icon: "success"
                                 }).then(location.reload())
                             }

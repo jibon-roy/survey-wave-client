@@ -1,4 +1,4 @@
-import { NavLink, Outlet } from "react-router-dom";
+import { Link, NavLink, Outlet } from "react-router-dom";
 // import Dashboard from "../../pages/dashboard/Dashboard";
 import './dash.css'
 import { IoAddCircle } from "react-icons/io5";
@@ -20,10 +20,10 @@ const DashboardLayout = () => {
 
             <aside id="logo-sidebar" className="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0" aria-label="Sidebar">
                 <div className="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
-                    <a href="https://flowbite.com/" className="flex items-center ps-2.5 mb-5">
+                    <Link to='/' className="flex items-center ps-2.5 mb-5">
                         <img src="/logo.png" className="w-44" alt="Logo" />
 
-                    </a>
+                    </Link>
                     <ul className="space-y-2 font-medium">
                         <li>
                             <NavLink to='/dashboard' className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">

@@ -1,3 +1,4 @@
+import CustomHeader from "../../components/customHeader/CustomHeader";
 import useAuthProvider from "../../hooks/useAuthProvider";
 import useRole from "../../hooks/useRole";
 
@@ -7,7 +8,8 @@ const Dashboard = () => {
     const role = useRole()
     return (
         <div>
-            <p className="text-center md:text-left text-2xl">
+            <CustomHeader name={'Admin Panel'}></CustomHeader>
+            <p className="text-center md:text-left -mt-16 text-2xl">
                 Welcome to dashboard, <span className="font-bold">{user?.displayName.split(' ')[0]}</span>
             </p>
             <div className="w-full h-px bg-primary-text mt-4 mb-10"></div>

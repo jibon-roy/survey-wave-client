@@ -21,7 +21,7 @@ import './nav.css'
 import PrimaryBtn from '../PrimaryBtn/PrimaryBtn';
 import useAuthProvider from '../../hooks/useAuthProvider';
 import useRole from '../../hooks/useRole';
-
+import { FcKey } from "react-icons/fc";
 
 function HideOnScroll(props) {
 
@@ -98,14 +98,14 @@ export default function Navbar(props) {
                 </Grid>
             }
         </div>
-        <div className='link font-semibold text-lg'><NavLink to='/'><button className='p-2'>Home</button></NavLink></div>
-        <div className='link font-semibold text-lg'><NavLink to='/allSurvey'><button className='p-2'>All Survey</button></NavLink></div>
+        <div className='link font-semibold text-md'><NavLink to='/'><button className='p-2'>Home</button></NavLink></div>
+        <div className='link font-semibold text-md'><NavLink to='/allSurvey'><button className='p-2'>All Survey</button></NavLink></div>
         {role == 'admin' &&
-            <div className='link font-semibold text-lg'><NavLink to='/dashboard'><button className='p-2'>Dashboard</button></NavLink></div>
+            <div className='link font-semibold text-md'><NavLink to='/dashboard'><button className='p-2'>Dashboard</button></NavLink></div>
         }
-        <div className='link font-semibold text-lg'><NavLink to='/surveyDetails'><button className='p-2'>Details</button></NavLink></div>
-        <div className='link font-semibold text-lg'><NavLink to='/pricing'><button className='p-2'>Pricing</button></NavLink></div>
-        {user && <div className='link font-semibold text-lg'><button onClick={logOut} className='p-2'>Logout</button></div>}
+        <div className='link font-semibold text-md'><NavLink to='/surveyDetails'><button className='p-2'>Details</button></NavLink></div>
+        <div className='link font-semibold text-md'><NavLink to='/pricing'><button className='p-2 flex items-center gap-1'><FcKey /> Buy Pro</button></NavLink></div>
+        {user && <div className='link font-semibold text-md'><button onClick={logOut} className='p-2'>Logout</button></div>}
     </>
 
 

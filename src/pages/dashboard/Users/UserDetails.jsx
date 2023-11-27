@@ -1,9 +1,37 @@
+import Swal from "sweetalert2";
 import useAuthProvider from "../../../hooks/useAuthProvider";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
+
 
 
 const UserDetails = ({ user, index }) => {
-
+    const axiosSecure = useAxiosSecure()
     const { user: activeUser } = useAuthProvider()
+    const handleDelete = () => {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                axiosSecure.delete(`/deleteUser?userId=${user?._id}`)
+                    .then(res => {
+                        if (res.data.deletedCount > 0)
+                            Swal.fire({
+                                title: "Deleted!",
+                                text: "Your file has been deleted.",
+                                icon: "success"
+                            })
+                    })
+
+            }
+        });
+
+    }
 
     return (
         <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
@@ -21,7 +49,8 @@ const UserDetails = ({ user, index }) => {
             </td>
             <td className="px-6 py-4 text-right">
                 <button disabled={activeUser?.email === user?.email} className={activeUser?.email === user?.email ? 'cursor-not-allowed font-medium text-primary-bg dark:text-primary-bg bg-primary-bg2 mr-2 px-2' : 'cursor-pointer font-medium text-primary-bg dark:text-primary-bg bg-primary-main mr-2 px-2 hover:underline'}>Edit</button>
-                <button disabled={activeUser?.email === user?.email} className={activeUser?.email === user?.email ? "cursor-not-allowed font-medium text-red-300 dark:text-red-600" : "font-medium text-red-600 dark:text-red-600 hover:underline"}> Delete</button>
+                <button onClick={handleDelete} disabled={activeUser?.email === user?.email} className={activeUser?.email === user?.email ? "cursor-not-allowed font-medium text-red-300 dark:text-red-600" : "font-medium text-red-600 dark:text-red-600 hover:underline"}> Delete</button>
+
             </td>
         </tr >
     );

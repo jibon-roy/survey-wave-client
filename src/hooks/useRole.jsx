@@ -12,7 +12,7 @@ const useRole = () => {
     const email = user?.email;
 
     useEffect(() => {
-        axios.post('http://localhost:5000/check-roll', { email: email })
+        axios.post('http://localhost:5000/check-role', { email: email })
             .then(res => setRoll(res.data))
             .catch()
     }, [email])

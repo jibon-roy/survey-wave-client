@@ -45,10 +45,10 @@ HideOnScroll.propTypes = {
 
 export default function Navbar(props) {
     const role = useRole()
-    // console.log(roll)
+    // console.log(role)
 
     const { user, logOut } = useAuthProvider();
-    console.log(user)
+    // console.log(user)
     const { primary } = useCustomTheme();
     const [anchorElUser, setAnchorElUser] = React.useState(null);
     const { children } = props;
@@ -59,8 +59,45 @@ export default function Navbar(props) {
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
     };
+    // Settings for Profile
+    const settings = [<button key={1} onClick={logOut}>Log Out</button>];
 
     const pages = <>
+        <div className='lg:hidden'>
+            {user &&
+                <Grid container sx={{ alignItems: 'center', mx: '10px', my: 'auto', gap: '5px', display: { xs: 'block', md: 'none' }, flexWrap: 'wrap' }}>
+                    <Tooltip title="Open settings" >
+                        <IconButton onClick={handleOpenUserMenu} sx={{ p: 0, border: '2px solid #009EFF', ":hover": { filter: 'revert', opacity: '0.7' } }}>
+                            {user ? user?.photoURL ? <img className='w-[40px] rounded-full' src={user?.photoURL}></img> : <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" /> : <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />}
+                        </IconButton>
+                    </Tooltip>
+                    <Box >{user?.displayName}</Box>
+                    <Menu
+                        sx={{ mt: '50px' }}
+                        id="menu-appbar"
+                        anchorEl={anchorElUser}
+                        anchorOrigin={{
+                            vertical: 'top',
+                            horizontal: 'right',
+                        }}
+                        keepMounted
+                        transformOrigin={{
+                            vertical: 'top',
+                            horizontal: 'right',
+                        }}
+                        open={Boolean(anchorElUser)}
+                        onClose={handleCloseUserMenu}
+                    >
+
+                        {settings.map((setting) => (
+                            <MenuItem key={setting} sx={{ color: primary.text }} onClick={handleCloseUserMenu}>
+                                <Typography color="text.primary" textAlign="center">{setting}</Typography>
+                            </MenuItem>
+                        ))}
+                    </Menu>
+                </Grid>
+            }
+        </div>
         <div className='link font-semibold text-lg'><NavLink to='/'><button className='p-2'>Home</button></NavLink></div>
         <div className='link font-semibold text-lg'><NavLink to='/allSurvey'><button className='p-2'>All Survey</button></NavLink></div>
         {role == 'admin' &&
@@ -68,9 +105,9 @@ export default function Navbar(props) {
         }
         <div className='link font-semibold text-lg'><NavLink to='/surveyDetails'><button className='p-2'>Details</button></NavLink></div>
         <div className='link font-semibold text-lg'><NavLink to='/pricing'><button className='p-2'>Pricing</button></NavLink></div>
+        {user && <div className='link font-semibold text-lg'><button onClick={logOut} className='p-2'>Logout</button></div>}
     </>
-    // Settings for Profile
-    const settings = [<button key={1} onClick={logOut}>Log Out</button>];
+
 
     return (
         <React.Fragment>
@@ -125,11 +162,11 @@ export default function Navbar(props) {
                                 }
 
                                 {user &&
-                                    <Grid container spacing={2} columns={2} sx={{ alignItems: 'center', my: 'auto', gap: '5px' }}>
+                                    <Grid container spacing={2} columns={2} sx={{ alignItems: 'center', my: 'auto', gap: '5px', display: { xs: 'none', md: 'flex' }, }}>
                                         <Box >{user?.displayName}</Box>
                                         <Tooltip title="Open settings" >
-                                            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0, border: '2px solid', ":hover": { filter: 'revert', opacity: '0.7' } }}>
-                                                {user ? user?.photoURL ? <img className='w-[50px] rounded-full' src={user?.photoURL}></img> : <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" /> : <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />}
+                                            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0, border: '2px solid #009EFF', ":hover": { filter: 'revert', opacity: '0.7' } }}>
+                                                {user ? user?.photoURL ? <img className='w-[40px] rounded-full' src={user?.photoURL}></img> : <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" /> : <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />}
                                             </IconButton>
                                         </Tooltip>
                                         <Menu

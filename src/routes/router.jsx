@@ -11,7 +11,12 @@ import PaymentPage from "../pages/payment/PaymentPage";
 import PrivetRoute from "./PrivetRoute";
 import DashboardLayout from "../layouts/dashboardLayout/DashboardLayout";
 import Dashboard from "../pages/dashboard/Dashboard";
-import AdminRoute from "./AdminRoute";
+import CreateSurvey from "../pages/dashboard/CreateSurvey/CreateSurvey";
+import MySurvey from "../pages/dashboard/MySurvey/MySurvey";
+import SurveyResponse from "../pages/dashboard/SurveyResponse/SurveyResponse";
+import Reports from "../pages/dashboard/Reports/Reports";
+import Users from "../pages/dashboard/Users/Users";
+
 
 
 
@@ -44,12 +49,33 @@ const router = createBrowserRouter([
     },
     {
         path: '/dashboard',
-        element: <AdminRoute><DashboardLayout></DashboardLayout></AdminRoute>,
+        element: <DashboardLayout></DashboardLayout>,
         children: [
             {
                 path: '/dashboard',
                 element: <Dashboard />
             },
+            {
+                path: '/dashboard/users',
+                element: <Users></Users>
+            },
+            {
+                path: '/dashboard/createSurvey',
+                element: <CreateSurvey></CreateSurvey>
+            },
+            {
+                path: '/dashboard/mySurvey',
+                element: <MySurvey></MySurvey>
+            },
+            {
+                path: '/dashboard/surveyResponse',
+                element: <SurveyResponse></SurveyResponse>
+            },
+            {
+                path: '/dashboard/reports',
+                element: <Reports></Reports>
+            },
+
         ]
     },
     {

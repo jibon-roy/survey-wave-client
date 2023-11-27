@@ -9,6 +9,9 @@ import SignUp from "../pages/SignUp/SignUp";
 import PublicRouter from "./PublicRouter";
 import PaymentPage from "../pages/payment/PaymentPage";
 import PrivetRoute from "./PrivetRoute";
+import DashboardLayout from "../layouts/dashboardLayout/DashboardLayout";
+import Dashboard from "../pages/dashboard/Dashboard";
+import AdminRoute from "./AdminRoute";
 
 
 
@@ -36,6 +39,16 @@ const router = createBrowserRouter([
             {
                 path: '/payment',
                 element: <PrivetRoute><PaymentPage></PaymentPage></PrivetRoute>
+            },
+        ]
+    },
+    {
+        path: '/dashboard',
+        element: <AdminRoute><DashboardLayout></DashboardLayout></AdminRoute>,
+        children: [
+            {
+                path: '/dashboard',
+                element: <Dashboard />
             },
         ]
     },

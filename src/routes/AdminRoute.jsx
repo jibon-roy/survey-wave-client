@@ -1,10 +1,14 @@
 import { Navigate, useLocation } from "react-router-dom";
+import { Placeholder } from "semantic-ui-react";
 import useAuthProvider from "../hooks/useAuthProvider";
-import { Placeholder } from 'semantic-ui-react'
+import useRole from "../hooks/useRole";
 
-const PrivetRoute = ({ children }) => {
+
+const AdminRoute = ({ children }) => {
     const { loading, user } = useAuthProvider();
+    const role = useRole()
     const location = useLocation()
+    console.log(role)
 
     if (loading)
         return <Placeholder>
@@ -19,11 +23,12 @@ const PrivetRoute = ({ children }) => {
                 <Placeholder.Line />
             </Placeholder.Paragraph>
         </Placeholder>
-    if (user) {
-        return children
-    } else {
+
+    if (!user && !role === 'admin') {
         return <Navigate to='/signUp' state={location?.state} replace></Navigate>
+    } else {
+        return children
     }
 };
 
-export default PrivetRoute;
+export default AdminRoute;

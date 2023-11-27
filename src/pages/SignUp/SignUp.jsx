@@ -9,6 +9,9 @@ import useAuthProvider from "../../hooks/useAuthProvider";
 // import axios from "axios";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
 import Swal from "sweetalert2";
+// import { updateCurrentUser } from "firebase/auth";
+import { auth } from "../../firebase/firebase";
+import { updateProfile } from "firebase/auth";
 
 // import { TextField } from "@mui/material";
 
@@ -30,12 +33,16 @@ const SignUp = () => {
         const name = data.name;
         const image = data.image;
         const password = data.password;
-        const roll = 'user'
+        const role = 'user'
         const userData = { name, email, image, roll }
 
         createUserWithEmailPass(email, password)
             .then(result => {
                 if (result.user) {
+                    updateProfile(auth.currentUser, {
+                        displayName: name,
+                        photoURL: image
+                    }).then(location.reload()).catch()
                     axiosPublic.post('/newUser', userData)
                         .then(res => {
                             if (res) {
@@ -43,7 +50,7 @@ const SignUp = () => {
                                     title: "Log Out Success!",
                                     text: "See You Again",
                                     icon: "success"
-                                }).then(location.reload());
+                                }).then(location.reload())
                             }
                         })
 
@@ -129,7 +136,7 @@ const SignUp = () => {
                             type="submit"
                             className="text-white w-full bg-blue-500 border-0 py-2 px-8 focus:outline-none hover:bg-blue-600 rounded text-lg"
                         >
-                            Login
+                            Sign Up
                         </button>
                     </form>
                     <div className="text-sm text-gray-500 mt-3">

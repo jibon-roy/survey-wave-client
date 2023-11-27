@@ -4,6 +4,7 @@ import { auth } from "../../firebase/firebase";
 import Swal from "sweetalert2";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
 
+
 export const AuthContext = createContext(null);
 
 const AuthProvider = ({ children }) => {
@@ -25,8 +26,8 @@ const AuthProvider = ({ children }) => {
                     const name = result.user.displayName;
                     const email = result.user.email;
                     const image = result.user.photoURL;
-                    const roll = 'user'
-                    const userData = { name, email, image, roll }
+                    const role = 'user'
+                    const userData = { name, email, image, role }
                     axiosPublic.post('/newUser', userData)
                         .then(res => {
                             if (res) {
@@ -61,11 +62,25 @@ const AuthProvider = ({ children }) => {
     // Check User
     useEffect(() => {
         const unSubscribe = onAuthStateChanged(auth, (currentUser) => {
-            setLoading(false);
+
             setUser(currentUser);
+            if (currentUser) {
+                // do something
+                const userData = { email: currentUser?.email }
+                axiosPublic.post('/jwt', userData)
+                    .then(res => {
+                        if (res.data.token) {
+                            localStorage.setItem('access-token', res.data.token)
+                        }
+                    })
+            } else {
+                // Do something
+                localStorage.removeItem('access-token')
+            }
+            setLoading(false);
         })
         return () => unSubscribe();
-    }, [])
+    }, [axiosPublic])
 
     const logOut = () => {
         return signOut(auth)

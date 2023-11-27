@@ -20,6 +20,8 @@ import MyDrawer from './MyDrawer';
 import './nav.css'
 import PrimaryBtn from '../PrimaryBtn/PrimaryBtn';
 import useAuthProvider from '../../hooks/useAuthProvider';
+import useRole from '../../hooks/useRole';
+
 
 function HideOnScroll(props) {
 
@@ -42,8 +44,11 @@ HideOnScroll.propTypes = {
 };
 
 export default function Navbar(props) {
+    const role = useRole()
+    // console.log(roll)
 
     const { user, logOut } = useAuthProvider();
+    console.log(user)
     const { primary } = useCustomTheme();
     const [anchorElUser, setAnchorElUser] = React.useState(null);
     const { children } = props;
@@ -58,6 +63,9 @@ export default function Navbar(props) {
     const pages = <>
         <div className='link font-semibold text-lg'><NavLink to='/'><button className='p-2'>Home</button></NavLink></div>
         <div className='link font-semibold text-lg'><NavLink to='/allSurvey'><button className='p-2'>All Survey</button></NavLink></div>
+        {role == 'admin' &&
+            <div className='link font-semibold text-lg'><NavLink to='/dashboard'><button className='p-2'>Dashboard</button></NavLink></div>
+        }
         <div className='link font-semibold text-lg'><NavLink to='/surveyDetails'><button className='p-2'>Details</button></NavLink></div>
         <div className='link font-semibold text-lg'><NavLink to='/pricing'><button className='p-2'>Pricing</button></NavLink></div>
     </>
@@ -117,14 +125,15 @@ export default function Navbar(props) {
                                 }
 
                                 {user &&
-                                    <>
-                                        <Tooltip title="Open settings">
-                                            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                                    <Grid container spacing={2} columns={2} sx={{ alignItems: 'center', my: 'auto', gap: '5px' }}>
+                                        <Box >{user?.displayName}</Box>
+                                        <Tooltip title="Open settings" >
+                                            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0, border: '2px solid', ":hover": { filter: 'revert', opacity: '0.7' } }}>
                                                 {user ? user?.photoURL ? <img className='w-[50px] rounded-full' src={user?.photoURL}></img> : <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" /> : <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />}
                                             </IconButton>
                                         </Tooltip>
                                         <Menu
-                                            sx={{ mt: '0px' }}
+                                            sx={{ mt: '50px' }}
                                             id="menu-appbar"
                                             anchorEl={anchorElUser}
                                             anchorOrigin={{
@@ -146,7 +155,7 @@ export default function Navbar(props) {
                                                 </MenuItem>
                                             ))}
                                         </Menu>
-                                    </>
+                                    </Grid>
                                 }
                             </Box>
                         </Toolbar>

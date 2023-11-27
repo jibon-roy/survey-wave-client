@@ -22,7 +22,6 @@ const CheckoutForm = ({ price }) => {
     useEffect(() => {
         axiosPublic.post('/create-payment-intent', { amount: amount })
             .then(res => {
-                console.log(res.data.paymentIntent)
                 setClientSecret(res.data.paymentIntent)
             })
             .catch()
@@ -46,16 +45,16 @@ const CheckoutForm = ({ price }) => {
         })
 
         if (error) {
-            console.log(error);
             setError(error.message)
-        } else {
-            console.log(paymentMethod)
-            setError('');
             Swal.fire({
-                title: 'Payment Successful.',
-                icon: 'success',
+                text: error.message,
+                title: 'Payment Error.',
+                icon: 'error',
                 confirmButtonColor: '#009EFF'
             })
+        } else {
+            if (paymentMethod)
+                setError('');
         }
         // Card Payment
         const { paymentIntent, error: paymentError } = await stripe.confirmCardPayment(clientSecret, {
@@ -69,11 +68,28 @@ const CheckoutForm = ({ price }) => {
         })
 
         if (paymentError) {
-            console.log('err', paymentError)
+            setError(paymentError.message)
         } else {
-            console.log('intent', paymentIntent)
+
             if (paymentIntent.status == 'succeeded') {
                 setSuccess(`Transition ID: ${paymentIntent.id}`)
+
+                const data = {
+                    name: user?.displayName,
+                    email: user?.email,
+                    role: 'pro',
+                }
+
+                axiosPublic.patch('/buyPro', data)
+                    .then(res => {
+                        if (res.data) {
+                            Swal.fire({
+                                title: 'Payment Successful.',
+                                icon: 'success',
+                                confirmButtonColor: '#009EFF'
+                            })
+                        }
+                    })
             }
         }
     }
@@ -102,8 +118,8 @@ const CheckoutForm = ({ price }) => {
             <button disabled={!stripe || !clientSecret} className="px-5 py-2 w-full mt-5 bg-primary-main text-white rounded-lg" type="submit">
                 Pay
             </button>
-            <p className="text-red-500">{error}</p>
-            <p className="text-green-500">{success}</p>
+            <p className="text-red-500 mt-2">{error}</p>
+            <p className="text-green-500 mt-2">{success}</p>
         </form>
     );
 };

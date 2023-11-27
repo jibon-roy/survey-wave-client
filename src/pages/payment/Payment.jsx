@@ -17,7 +17,7 @@ export default function Payment() {
 
     return (
         <Elements stripe={stripePromise} >
-            <div className="shadow-md border-2 border-primary-main p-2 rounded-lg h-64">
+            <div className="shadow-md border-2 border-primary-main p-2 rounded-lg h-72">
                 <CheckoutForm price={price} />
             </div>
         </Elements>

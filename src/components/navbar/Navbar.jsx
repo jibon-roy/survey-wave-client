@@ -68,7 +68,7 @@ export default function Navbar(props) {
                 <Grid container sx={{ alignItems: 'center', mx: '10px', my: 'auto', gap: '5px', display: { xs: 'block', md: 'none' }, flexWrap: 'wrap' }}>
                     <Tooltip title="Open settings" >
                         <IconButton onClick={handleOpenUserMenu} sx={{ p: 0, border: '2px solid #009EFF', ":hover": { filter: 'revert', opacity: '0.7' } }}>
-                            {user ? user?.photoURL ? <img className='w-[40px] rounded-full' src={user?.photoURL}></img> : <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" /> : <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />}
+                            {user ? user?.photoURL ? <img className='w-[40px] h-[40px] rounded-full' src={user?.photoURL}></img> : <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" /> : <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />}
                         </IconButton>
                     </Tooltip>
                     <Box >{user?.displayName}</Box>
@@ -166,7 +166,7 @@ export default function Navbar(props) {
                                         <Box >{user?.displayName}</Box>
                                         <Tooltip title="Open settings" >
                                             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0, border: '2px solid #009EFF', ":hover": { filter: 'revert', opacity: '0.7' } }}>
-                                                {user ? user?.photoURL ? <img className='w-[40px] rounded-full' src={user?.photoURL}></img> : <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" /> : <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />}
+                                                {user ? user?.photoURL ? <img className='w-[40px] h-[40px] rounded-full' src={user?.photoURL}></img> : <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" /> : <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />}
                                             </IconButton>
                                         </Tooltip>
                                         <Menu

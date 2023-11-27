@@ -1,11 +1,13 @@
 import Swal from "sweetalert2";
 import useAuthProvider from "../../../hooks/useAuthProvider";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import { useState } from "react";
 
 
 
 const UserDetails = ({ user, index }) => {
     const axiosSecure = useAxiosSecure()
+    const [deleteData, setDeleteData] = useState('');
     const { user: activeUser } = useAuthProvider()
     const handleDelete = () => {
         Swal.fire({
@@ -20,12 +22,16 @@ const UserDetails = ({ user, index }) => {
             if (result.isConfirmed) {
                 axiosSecure.delete(`/deleteUser?userId=${user?._id}`)
                     .then(res => {
-                        if (res.data.deletedCount > 0)
+                        if (res.data.deletedCount > 0) {
+                            setDeleteData('hidden')
                             Swal.fire({
                                 title: "Deleted!",
                                 text: "Your file has been deleted.",
                                 icon: "success"
                             })
+                        }
+
+
                     })
 
             }
@@ -34,7 +40,7 @@ const UserDetails = ({ user, index }) => {
     }
 
     return (
-        <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+        <tr className={`bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 ${deleteData}`}>
             <th scope="row" className="px-6 py-4 flex gap-2 items-center font-medium text-gray-900 whitespace-nowrap dark:text-white">
                 <span>{index + 1}. </span><img src={user?.image} className="w-9 h-9 rounded-full" alt="" />
             </th>

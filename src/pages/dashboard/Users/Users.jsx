@@ -3,7 +3,6 @@ import CustomHeader from "../../../components/customHeader/CustomHeader";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import UserDetails from "./UserDetails";
 import { useEffect, useState } from "react";
-import UserEdit from "./UserEdit/UserEdit";
 
 
 
@@ -69,7 +68,7 @@ const Users = () => {
                         }
                     </tbody>
                 </table>
-                <UserEdit></UserEdit>
+
             </div>
             {/* } */}
         </div>

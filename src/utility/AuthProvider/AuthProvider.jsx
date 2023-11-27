@@ -46,7 +46,7 @@ const AuthProvider = ({ children }) => {
                     // console.log(error)
                     Swal.fire({
                         title: "Opps...",
-                        text: "Something is wrong! 3",
+                        text: "Something is wrong!",
                         icon: "error"
                     });
                 }

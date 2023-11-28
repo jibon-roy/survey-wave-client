@@ -5,12 +5,11 @@ import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import Swal from "sweetalert2";
 
 
-const CreateSurvey = () => {
+const UpdateSurvey = () => {
     const axiosSecure = useAxiosSecure()
     const [category, setCategory] = useState('Education');
     const { user } = useAuthProvider();
     const email = user?.email;
-    const name = user?.displayName;
 
     const handlePublishSurvey = (e) => {
         e.preventDefault()
@@ -20,21 +19,16 @@ const CreateSurvey = () => {
         const deadline = form.deadline.value;
         const surveyData = {
             surveyor: email,
-            posted: name,
             title: surveyTitle,
             body: surveyBody,
             category: category,
-            totalTrueVote: [],
-            totalFalseVote: [],
+            totalVote: [],
             totalLike: [],
             totalDisLike: [],
             totalComments: [],
             reportData: [],
-            publishedDate: '',
-            deadline: deadline,
-            publish: true,
-            adminComment: '',
-            report: ''
+            published: '',
+            deadline: deadline
         }
         console.log(surveyData)
         axiosSecure.post('/postSurvey', surveyData)
@@ -55,7 +49,7 @@ const CreateSurvey = () => {
 
     return (
         <div>
-            <CustomHeader name='Create' subject={'Create A New Survey'}></CustomHeader>
+            <CustomHeader name='Update' subject={'Update Survey'}></CustomHeader>
             <div className="w-full h-px bg-primary-text -mt-10 mb-10"></div>
             <form onSubmit={handlePublishSurvey} className="max-w-md mx-auto p-4 mb-10 bg-primary-bg2 rounded-lg">
                 <div className="mb-5">
@@ -86,4 +80,4 @@ const CreateSurvey = () => {
     );
 };
 
-export default CreateSurvey;
+export default UpdateSurvey;

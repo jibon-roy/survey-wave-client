@@ -2,9 +2,23 @@ import { Link } from "react-router-dom";
 import Cards from "../../../components/Cards/Cards";
 import PrimaryBtn from "../../../components/PrimaryBtn/PrimaryBtn";
 import CustomHeader from "../../../components/customHeader/CustomHeader";
+import useAxiosPublic from "../../../hooks/useAxiosPublic";
+import { useQuery } from "@tanstack/react-query";
+import CardPlaceHolder from "../../../components/cardPlaceHolder/CardPlaceHolder";
 
 
 const LatestSurveys = () => {
+
+    const axiosPublic = useAxiosPublic();
+    const { data, isLoading } = useQuery({
+        queryKey: ['surveys'],
+        queryFn: async () => {
+            const res = await axiosPublic.get('/surveys');
+            return res.data;
+        }
+    })
+
+
     return (
         <section className="bg-primary-bg2 body-font">
             <div className="container px-5 py-24 mx-auto">
@@ -14,7 +28,9 @@ const LatestSurveys = () => {
                     dive into the most recent sentiments. Survey Wave keeps you connected to the pulse of current opinions,
                     shaping the conversation in real-time.
                 </CustomHeader>
-                <Cards></Cards>
+                {
+                    isLoading ? <CardPlaceHolder></CardPlaceHolder> : <Cards data={data}></Cards>
+                }
                 <div className="text-center mt-10">
                     <Link to='/h' className='text-center'>
                         <PrimaryBtn variant='outlined' main>

@@ -103,7 +103,6 @@ export default function Navbar(props) {
         {role == 'admin' &&
             <div className='link font-semibold text-md'><NavLink to='/dashboard'><button className='p-2'>Dashboard</button></NavLink></div>
         }
-        <div className='link font-semibold text-md'><NavLink to='/surveyDetails'><button className='p-2'>Details</button></NavLink></div>
         <div className='link font-semibold text-md'><NavLink to='/pricing'><button className='p-2 flex items-center gap-1'><FcKey /> Buy Pro</button></NavLink></div>
         {user && <div className='link font-semibold text-md'><button onClick={logOut} className='p-2'>Logout</button></div>}
     </>

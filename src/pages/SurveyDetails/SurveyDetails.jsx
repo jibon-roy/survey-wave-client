@@ -5,7 +5,31 @@ import { ThumbDownAltOutlined } from '@mui/icons-material';
 import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
 import SmsOutlinedIcon from '@mui/icons-material/SmsOutlined';
 import ReportGmailerrorredIcon from '@mui/icons-material/ReportGmailerrorred';
+import { useLoaderData } from "react-router-dom";
+import moment from "moment";
+
+
 const SurveyDetails = () => {
+    const surveyData = useLoaderData()
+    const survey = surveyData.data;
+    const posted = survey?.posted;
+
+    const totalTrueVote = survey?.totalTrueVote;
+    const totalFalseVote = survey?.totalFalseVote;
+    const totalVote = totalTrueVote.length + totalFalseVote.length
+    const publishedDate = survey?.publishedDate;
+    const deadlineDate = survey?.deadline;
+
+    const parsedDate = moment(publishedDate);
+    const parsedDate2 = moment(deadlineDate);
+    const formattedDate = parsedDate.format('DD-MM-YYYY');
+    const deadline = parsedDate2.format('DD-MM-YYYY');
+    const likes = survey?.totalLike?.length
+    const disLikes = survey?.totalDisLike?.length
+    const totalComments = survey?.totalComments?.length;
+
+
+
 
     const [selectedOption, setSelectedOption] = useState(null);
 
@@ -50,28 +74,28 @@ const SurveyDetails = () => {
     }
 
     return (
-        <div className="my-20">
+        <div className="py-28">
             <div>
-                <CustomHeader name='Details of' subject='Survey Title'></CustomHeader>
+                <CustomHeader name='Details page of' subject={survey?.title}></CustomHeader>
             </div>
             <div className="md:flex mx-2 gap-4">
                 <div className="my-5 mx-2 md:w-1/2">
-                    <div className="font-semibold text-2xl"> Title: Post Title</div>
+                    <div className="font-semibold text-xl"> Title: {survey?.title}</div>
                     <div className="font-medium text-lg">Description:</div>
                     <div className="text-justify">
-                        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Autem soluta dignissimos deleniti ullam sint ea alias, fugit iste accusantium nihil, aliquid explicabo vel, in nobis id iure accusamus quaerat! Veniam quo nesciunt distinctio mollitia vero numquam, iste voluptates excepturi praesentium, deserunt minima quisquam reiciendis quaerat aliquid, eveniet aperiam. Molestias voluptates numquam iure fuga in qui neque accusamus rem dolore ullam.
+                        {survey?.body}
                     </div>
                     {/* Action bar */}
                     <div className='flex flex-wrap mt-10 justify-between items-center'>
                         <div className='flex gap-4'>
                             <div className='flex gap-1'>
-                                <ThumbUpOutlinedIcon className='hover:text-primary-main cursor-pointer transition'></ThumbUpOutlinedIcon>{10}
+                                <ThumbUpOutlinedIcon className='hover:text-primary-main cursor-pointer transition'></ThumbUpOutlinedIcon>{likes}
                             </div>
                             <div className='flex gap-1'>
-                                <ThumbDownAltOutlined className='hover:text-primary-main cursor-pointer transition'></ThumbDownAltOutlined>{5}
+                                <ThumbDownAltOutlined className='hover:text-primary-main cursor-pointer transition'></ThumbDownAltOutlined>{disLikes}
                             </div>
                             <div className='flex gap-1'>
-                                <SmsOutlinedIcon className='hover:text-primary-main cursor-pointer transition'></SmsOutlinedIcon>{5}
+                                <SmsOutlinedIcon className='hover:text-primary-main cursor-pointer transition'></SmsOutlinedIcon>{totalComments}
                             </div>
                             <div onClick={reportButton} className='flex gap-1 hover:text-red-500 text-red-600 cursor-pointer'>
                                 <ReportGmailerrorredIcon className='cursor-pointer transition'></ReportGmailerrorredIcon>Report Issue
@@ -86,17 +110,22 @@ const SurveyDetails = () => {
                         <tr>
                             <td className="font-semibold">Posted</td>
                             <td className="font-semibold px-4">:</td>
-                            <td>Poster Name</td>
+                            <td>{posted}</td>
                         </tr>
                         <tr>
                             <td className="font-semibold">Posted Date</td>
                             <td className="font-semibold px-4">:</td>
-                            <td> 12/11/2023</td>
+                            <td> {formattedDate}</td>
                         </tr>
                         <tr>
                             <td className="font-semibold">Deadline</td>
                             <td className="font-semibold px-4">:</td>
-                            <td className="text-red-500">16/11/2023</td>
+                            <td className="text-red-500">{deadline}</td>
+                        </tr>
+                        <tr>
+                            <td className="font-semibold">Total Vote</td>
+                            <td className="font-semibold px-4">:</td>
+                            <td >{totalVote}</td>
                         </tr>
                         <tr>
                             <td className="font-semibold align-top">Vote</td>
@@ -157,7 +186,7 @@ const SurveyDetails = () => {
             <p className="mx-auto text-center text-xs text-gray-500 dark:text-gray-400">Remember, contributions to this topic should follow our <a href="#" className="text-blue-600 dark:text-blue-500 hover:underline">Community Guidelines</a>.</p>
             {/* Comment Section */}
             <div className="mx-2">
-                <div className="font-semibold text-2xl mt-10">Recent Comments: {0}</div>
+                <div className="font-semibold text-2xl mt-10">Recent Comments: {totalComments}</div>
                 <div className="my-5 w-full h-1 rounded-sm bg-primary-text"></div>
             </div>
         </div>

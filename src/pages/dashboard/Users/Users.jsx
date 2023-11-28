@@ -53,7 +53,7 @@ const Users = () => {
                                     <option defaultChecked value="allUsers">All Users</option>
                                     <option value="admin">Admin</option>
                                     <option value="surveyor">Surveyor</option>
-                                    <option value="pro">Paid</option>
+                                    <option value="pro">Pro</option>
                                     <option value="user">User</option>
                                 </select>
                             </th>

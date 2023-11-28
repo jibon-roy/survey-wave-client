@@ -16,9 +16,13 @@ import MySurvey from "../pages/dashboard/MySurvey/MySurvey";
 import SurveyResponse from "../pages/dashboard/SurveyResponse/SurveyResponse";
 import Reports from "../pages/dashboard/Reports/Reports";
 import Users from "../pages/dashboard/Users/Users";
+import UpdateSurvey from "../pages/dashboard/updateSurvey/UpdateSurvey";
+import axios from "axios";
 
 
-
+const routAxios = axios.create({
+    baseURL: 'http://localhost:5000'
+})
 
 const router = createBrowserRouter([
     {
@@ -34,7 +38,8 @@ const router = createBrowserRouter([
                 element: <AllSurvey></AllSurvey>
             },
             {
-                path: '/surveyDetails',
+                path: '/surveyDetails/:id',
+                loader: ({ params }) => routAxios.get(`surveys/${params.id}`),
                 element: <SurveyDetails></SurveyDetails>
             },
             {
@@ -65,7 +70,13 @@ const router = createBrowserRouter([
             },
             {
                 path: '/dashboard/mySurvey',
+                loader: () => routAxios.get(`/surveys`),
                 element: <MySurvey></MySurvey>
+            },
+            {
+                path: '/dashboard/mySurvey/:surveyId',
+                loader: ({ params }) => routAxios.get(`/surveys/${params.surveyId}`),
+                element: <UpdateSurvey></UpdateSurvey>
             },
             {
                 path: '/dashboard/surveyResponse',

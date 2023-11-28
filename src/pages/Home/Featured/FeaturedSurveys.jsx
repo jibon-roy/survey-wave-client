@@ -2,9 +2,23 @@ import { Link } from "react-router-dom";
 import Cards from "../../../components/Cards/Cards";
 import PrimaryBtn from "../../../components/PrimaryBtn/PrimaryBtn";
 import CustomHeader from "../../../components/customHeader/CustomHeader";
+import useAxiosPublic from "../../../hooks/useAxiosPublic";
+import { useQuery } from "@tanstack/react-query";
+import CardPlaceHolder from "../../../components/cardPlaceHolder/CardPlaceHolder";
 
 
 const FeaturedSurveys = () => {
+
+    const axiosPublic = useAxiosPublic();
+    const { data, isLoading } = useQuery({
+        queryKey: ['surveys'],
+        queryFn: async () => {
+            const res = await axiosPublic.get('/surveys');
+            return res.data;
+        }
+    })
+
+
     return (
         <section className="text-gray-600 body-font">
             <div className="container px-5 py-24 mx-auto">
@@ -13,7 +27,9 @@ const FeaturedSurveys = () => {
                     Engage in trending topics and witness the dynamic landscape of community perspectives.
                     From product preferences to service feedback, stay connected to influential insights.
                 </CustomHeader>
-                <Cards></Cards>
+                {
+                    isLoading ? <CardPlaceHolder></CardPlaceHolder> : <Cards data={data}></Cards>
+                }
                 <div className="text-center mt-10">
                     <Link to='/h' className='text-center'>
                         <PrimaryBtn variant='outlined' main>

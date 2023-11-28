@@ -6,11 +6,26 @@ import { IoAddCircle } from "react-icons/io5";
 import Chip from '@mui/material/Chip';
 import { Divider } from "@mui/material";
 import { Home } from "@mui/icons-material";
+import { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
+
+
 
 const DashboardLayout = () => {
+
+    function ScrollToTopOnRouteChange() {
+        const { pathname } = useLocation();
+
+        useEffect(() => {
+            window.scrollTo(0, 0);
+        }, [pathname]);
+
+        return null;
+    }
+
     return (
         <div className="relative">
-
+            <ScrollToTopOnRouteChange />
             <button data-drawer-target="logo-sidebar" data-drawer-toggle="logo-sidebar" aria-controls="logo-sidebar" type="button" className="inline-flex items-center p-2 mt-2 ms-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
                 <span className="sr-only">Open sidebar</span>
                 <svg className="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">

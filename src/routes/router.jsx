@@ -39,7 +39,6 @@ const router = createBrowserRouter([
             },
             {
                 path: '/surveyDetails/:id',
-                loader: ({ params }) => routAxios.get(`surveys/${params.id}`),
                 element: <SurveyDetails></SurveyDetails>
             },
             {

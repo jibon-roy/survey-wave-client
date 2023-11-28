@@ -1,22 +1,46 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CustomHeader from "../../components/customHeader/CustomHeader";
 import Swal from "sweetalert2";
 import { ThumbDownAltOutlined } from '@mui/icons-material';
 import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
 import SmsOutlinedIcon from '@mui/icons-material/SmsOutlined';
 import ReportGmailerrorredIcon from '@mui/icons-material/ReportGmailerrorred';
-import { useLoaderData } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import moment from "moment";
-
+import useAuthProvider from "../../hooks/useAuthProvider";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
+import { useQuery } from "@tanstack/react-query";
+import useAxiosPublic from "../../hooks/useAxiosPublic";
+import ThumbUpIcon from '@mui/icons-material/ThumbUp';
+import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 
 const SurveyDetails = () => {
-    const surveyData = useLoaderData()
-    const survey = surveyData.data;
+    // const data = useLoaderData()
+    const params = useParams()
+    const [disableLike, setDisableLike] = useState(false)
+    const [disableDisLike, setDisableDisLike] = useState(false)
+    // loader: ({ params }) => routAxios.get(`surveys/${params.id}`),
+
+    const { user } = useAuthProvider();
+    const axiosSecure = useAxiosSecure();
+    const axiosPublic = useAxiosPublic();
+
+
+
+    const { data: survey, isLoading, refetch, } = useQuery({
+        queryKey: ['surveyData'],
+        queryFn: async () => {
+            const response = await axiosPublic.get(`/surveys/${params.id}`); // Replace with your actual API endpoint
+            return response.data;
+        }
+    })
+
+    // const survey = surveyData.data;
     const posted = survey?.posted;
 
-    const totalTrueVote = survey?.totalTrueVote;
+    const totalTrueVote = survey?.totalTrueVote
     const totalFalseVote = survey?.totalFalseVote;
-    const totalVote = totalTrueVote.length + totalFalseVote.length
+    const totalVote = totalTrueVote?.length + totalFalseVote?.length
     const publishedDate = survey?.publishedDate;
     const deadlineDate = survey?.deadline;
 
@@ -25,11 +49,15 @@ const SurveyDetails = () => {
     const formattedDate = parsedDate.format('DD-MM-YYYY');
     const deadline = parsedDate2.format('DD-MM-YYYY');
     const likes = survey?.totalLike?.length
+    const liker = survey?.totalLike
     const disLikes = survey?.totalDisLike?.length
+    const disLiker = survey?.totalDisLike
     const totalComments = survey?.totalComments?.length;
 
-
-
+    useEffect(() => {
+        liker?.find(liked => liked === user?.email ? setDisableLike(true) : setDisableLike(false))
+        disLiker?.find(disLike => disLike === user?.email ? setDisableDisLike(true) : setDisableDisLike(false))
+    }, [liker, user?.email, disLiker])
 
     const [selectedOption, setSelectedOption] = useState(null);
 
@@ -39,15 +67,105 @@ const SurveyDetails = () => {
 
     const handleSubmitVote = (e) => {
         e.preventDefault();
-        if (selectedOption) {
-            console.log(selectedOption);
+        if (user) {
+            if (selectedOption) {
+                const voteDetails = {
+                    user: user?.email,
+                    vote: selectedOption
+                }
+                axiosSecure.put(`/addVote/${survey?._id}`, voteDetails)
+                    .then(res => {
+                        if (res.data) {
+                            refetch()
+                            Swal.fire({
+                                title: "Vote success.",
+                                text: "Your answer has bees recorded.",
+                                icon: "success",
+                                confirmButtonColor: "#009EFF",
+                            });
+                        }
+                    }).catch(err => {
+                        if (err) {
+                            Swal.fire({
+                                title: "Opps...",
+                                text: "Something is wrong. Contract with admin.",
+                                icon: "warning",
+                                confirmButtonColor: "#009EFF",
+                            });
+                        }
+                    })
+
+            } else {
+                Swal.fire({
+                    title: "Opps...",
+                    text: "You haven't selected any option.",
+                    icon: "warning",
+                    confirmButtonColor: "#009EFF",
+                });
+            }
+        } else {
+            Swal.fire({
+                title: "Opps...",
+                text: "You need to login first.",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Okey"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    location.href = '/login'
+                }
+            });
+        }
+
+    }
+
+    const handleLike = () => {
+        if (user) {
+            const like = {
+                user: user?.email
+            }
+            axiosSecure.put(`/addLike/${survey?._id}`, like)
+                .then(() => refetch())
 
         } else {
             Swal.fire({
                 title: "Opps...",
-                text: "You haven't selected any option.",
+                text: "You need to login first.",
                 icon: "warning",
-                confirmButtonColor: "#009EFF",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Okey"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    location.href = '/login'
+                }
+            });
+        }
+    }
+    const handleDisLike = () => {
+        if (user) {
+            const disLike = {
+                user: user?.email
+            }
+            axiosSecure.put(`/disLike/${survey?._id}`, disLike)
+                .then(() => refetch())
+
+        } else {
+            Swal.fire({
+                title: "Opps...",
+                text: "You need to login first.",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Okey"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    location.href = '/login'
+                }
             });
         }
     }
@@ -73,6 +191,8 @@ const SurveyDetails = () => {
         });
     }
 
+    if (isLoading) return 'hello'
+
     return (
         <div className="py-28">
             <div>
@@ -89,10 +209,10 @@ const SurveyDetails = () => {
                     <div className='flex flex-wrap mt-10 justify-between items-center'>
                         <div className='flex gap-4'>
                             <div className='flex gap-1'>
-                                <ThumbUpOutlinedIcon className='hover:text-primary-main cursor-pointer transition'></ThumbUpOutlinedIcon>{likes}
+                                <button disabled={disableLike} onClick={handleLike}>{disableLike ? <ThumbUpIcon></ThumbUpIcon> : <ThumbUpOutlinedIcon className='hover:text-primary-main cursor-pointer transition'></ThumbUpOutlinedIcon>}</button>{likes}
                             </div>
                             <div className='flex gap-1'>
-                                <ThumbDownAltOutlined className='hover:text-primary-main cursor-pointer transition'></ThumbDownAltOutlined>{disLikes}
+                                <button disabled={disableDisLike} onClick={handleDisLike}>{disableDisLike ? <ThumbDownIcon></ThumbDownIcon> : <ThumbDownAltOutlined className='hover:text-primary-main cursor-pointer transition'></ThumbDownAltOutlined>}</button>{disLikes}
                             </div>
                             <div className='flex gap-1'>
                                 <SmsOutlinedIcon className='hover:text-primary-main cursor-pointer transition'></SmsOutlinedIcon>{totalComments}

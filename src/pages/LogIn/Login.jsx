@@ -29,7 +29,7 @@ const Login = () => {
                             title: "Log In Success!",
                             text: "See You Again",
                             icon: "success"
-                        }).then(location.reload());
+                        });
                     }
 
             })

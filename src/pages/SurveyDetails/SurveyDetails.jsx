@@ -19,6 +19,7 @@ const SurveyDetails = () => {
     const params = useParams()
     const [disableLike, setDisableLike] = useState(false)
     const [disableDisLike, setDisableDisLike] = useState(false)
+    const [disableVote, setDisableVote] = useState(false);
     // loader: ({ params }) => routAxios.get(`surveys/${params.id}`),
 
     const { user } = useAuthProvider();
@@ -57,7 +58,11 @@ const SurveyDetails = () => {
     useEffect(() => {
         liker?.find(liked => liked === user?.email ? setDisableLike(true) : setDisableLike(false))
         disLiker?.find(disLike => disLike === user?.email ? setDisableDisLike(true) : setDisableDisLike(false))
-    }, [liker, user?.email, disLiker])
+        totalTrueVote?.find(vote => vote === user?.email ? setDisableVote(true) : setDisableVote(false))
+        totalFalseVote?.find(vote => vote === user?.email ? setDisableVote(true) : setDisableVote(false))
+
+
+    }, [liker, user?.email, disLiker, totalTrueVote, totalFalseVote])
 
     const [selectedOption, setSelectedOption] = useState(null);
 
@@ -254,15 +259,16 @@ const SurveyDetails = () => {
                                 <form onSubmit={handleSubmitVote}>
                                     <div className="flex justify-between items-center flex-wrap gap-2">
                                         <div className="flex cursor-pointer items-center">
-                                            <input onChange={handleRadioChange} id="radio-1" type="radio" value="Yes" name="Vote" className="w-4 h-4 cursor-pointer text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                                            <input disabled={disableVote} onChange={handleRadioChange} id="radio-1" type="radio" value="Yes" name="Vote" className="w-4 h-4 cursor-pointer text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
                                             <label htmlFor="radio-1" className="ms-2 text-sm cursor-pointer font-medium text-gray-900 dark:text-gray-300">Yes</label>
                                         </div>
                                         <div className="flex items-center">
-                                            <input onChange={handleRadioChange} id="radio-2" type="radio" value="No" name="Vote" className="w-4 h-4 cursor-pointer text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                                            <input disabled={disableVote} onChange={handleRadioChange} id="radio-2" type="radio" value="No" name="Vote" className="w-4 h-4 cursor-pointer text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
                                             <label htmlFor="radio-2" className="ms-2 text-sm cursor-pointer font-medium text-gray-900 dark:text-gray-300">No</label>
                                         </div>
                                     </div>
-                                    <button type="submit" className="text-white mt-4 text-center bg-primary-main hover:bg-blue-500 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-primary-main focus:outline-none dark:focus:ring-blue-800">Submit Vote</button>
+                                    <button disabled={disableVote} type="submit"
+                                        className={disableVote ? "text-white mt-4 text-center bg-blue-300 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-primary-main focus:outline-none dark:focus:ring-blue-800" : "text-white mt-4 text-center bg-primary-main hover:bg-blue-500 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-primary-main focus:outline-none dark:focus:ring-blue-800"}>Submit Vote</button>
                                 </form>
                             </td>
                         </tr>

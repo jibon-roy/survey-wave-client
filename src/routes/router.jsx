@@ -18,6 +18,8 @@ import Reports from "../pages/dashboard/Reports/Reports";
 import Users from "../pages/dashboard/Users/Users";
 import UpdateSurvey from "../pages/dashboard/updateSurvey/UpdateSurvey";
 import axios from "axios";
+import AllAdminSurveys from "../pages/dashboard/AllAdminSurveys/AllAdminSurveys";
+import Payments from "../pages/dashboard/Payments/Payments";
 
 
 const routAxios = axios.create({
@@ -78,12 +80,20 @@ const router = createBrowserRouter([
                 element: <UpdateSurvey></UpdateSurvey>
             },
             {
+                path: '/dashboard/allSurveys',
+                element: <AllAdminSurveys></AllAdminSurveys>
+            },
+            {
                 path: '/dashboard/surveyResponse',
                 element: <SurveyResponse></SurveyResponse>
             },
             {
                 path: '/dashboard/reports',
                 element: <Reports></Reports>
+            },
+            {
+                path: '/dashboard/payments',
+                element: <Payments></Payments>
             },
 
         ]

@@ -1,7 +1,23 @@
+import { useQuery } from "@tanstack/react-query";
 import CustomHeader from "../../../components/customHeader/CustomHeader";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import Table from "./Table";
 
 
 const Payments = () => {
+
+    const axiosSecure = useAxiosSecure();
+    // const { user } = useAuthProvider();
+    const { data, isLoading, refetch } = useQuery({
+        queryKey: ['paidUsers'],
+        queryFn: async () => {
+            const res = await axiosSecure.get(`/getPaidUsers`)
+            return res.data;
+        }
+    })
+
+    const totalBalance = data?.reduce((sum, user) => sum + user?.paid, 0)
+
     return (
         <div>
             <CustomHeader name='Payments' subject={'Lists of Payments'}></CustomHeader>
@@ -13,16 +29,16 @@ const Payments = () => {
                         <thead className="text-md text-primary-bg uppercase bg-primary-main dark:text-primary-bg">
                             <tr>
                                 <th scope="col" className="px-6 py-3">
-                                    SL.
+                                    SL. User Name
                                 </th>
                                 <th scope="col" className="px-6 py-3">
-                                    User Name
+                                    User Type
                                 </th>
                                 <th scope="col" className="px-6 py-3">
-                                    Pending
+                                    Email
                                 </th>
                                 <th scope="col" className="px-6 py-3">
-                                    status
+                                    Transition ID
                                 </th>
                                 <th scope="col" className="px-6 py-3">
                                     $ Paid
@@ -31,9 +47,18 @@ const Payments = () => {
                         </thead>
                         <tbody>
                             {
-
+                                data?.map((userDetail, idx) => <Table key={userDetail?._id} userDetail={userDetail} index={idx} refetch={refetch} isLoading={isLoading}></Table>)
                             }
                         </tbody>
+                        <tfoot className="text-md text-primary-text font-semibold uppercase bg-primary-bg2 dark:text-primary-bg">
+                            <tr>
+                                <td scope="col" className="px-6 py-3">Total Balance =</td>
+                                <td scope="col" className="px-6 py-3"></td>
+                                <td scope="col" className="px-6 py-3"></td>
+                                <td scope="col" className="px-6 py-3"></td>
+                                <td scope="col" className="px-6 py-3">{totalBalance}.00</td>
+                            </tr>
+                        </tfoot>
                     </table>
                 </div>
             }

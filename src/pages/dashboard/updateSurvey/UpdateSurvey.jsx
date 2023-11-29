@@ -30,7 +30,6 @@ const UpdateSurvey = () => {
             published: '',
             deadline: deadline
         }
-        console.log(surveyData)
         axiosSecure.post('/postSurvey', surveyData)
             .then(res => {
                 if (res.data) {

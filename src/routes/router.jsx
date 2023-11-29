@@ -21,7 +21,7 @@ import AllAdminSurveys from "../pages/dashboard/AllAdminSurveys/AllAdminSurveys"
 import Payments from "../pages/dashboard/Payments/Payments";
 
 
-const routAxios = axios.create({
+const routeAxios = axios.create({
     baseURL: 'http://localhost:5000'
 })
 
@@ -70,12 +70,12 @@ const router = createBrowserRouter([
             },
             {
                 path: '/dashboard/mySurvey',
-                loader: () => routAxios.get(`/surveys`),
+                loader: () => routeAxios.get(`/surveys`),
                 element: <MySurvey></MySurvey>
             },
             {
                 path: '/dashboard/mySurvey/:surveyId',
-                loader: ({ params }) => routAxios.get(`/surveys/${params.surveyId}`),
+                loader: ({ params }) => routeAxios.get(`/surveys/${params.surveyId}`),
                 element: <UpdateSurvey></UpdateSurvey>
             },
             {

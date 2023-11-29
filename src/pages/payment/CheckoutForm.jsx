@@ -72,12 +72,19 @@ const CheckoutForm = ({ price }) => {
         } else {
 
             if (paymentIntent.status == 'succeeded') {
-                setSuccess(`Transition ID: ${paymentIntent.id}`)
+                setSuccess(`Transition ID: ${paymentIntent?.id}`)
 
                 const data = {
                     name: user?.displayName,
                     email: user?.email,
                     role: 'pro',
+                }
+                const paidData = {
+                    name: user?.displayName,
+                    email: user?.email,
+                    role: 'pro',
+                    TransitionID: paymentIntent?.id,
+                    paid: parseFloat(price)
                 }
 
                 axiosPublic.patch('/buyPro', data)
@@ -88,8 +95,23 @@ const CheckoutForm = ({ price }) => {
                                 icon: 'success',
                                 confirmButtonColor: '#009EFF'
                             })
+                            axiosPublic.post('/paidUsers', paidData)
+                                .then(() => {
+                                })
+
                         }
-                    })
+                    }).catch(err => {
+                        if (err) {
+                            Swal.fire({
+                                title: 'Payment not successful.',
+                                icon: 'error',
+                                confirmButtonColor: '#009EFF'
+                            })
+                        }
+                    }
+
+                    )
+
             }
         }
     }

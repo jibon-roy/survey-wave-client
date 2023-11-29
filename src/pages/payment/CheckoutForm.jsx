@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
 import useAuthProvider from "../../hooks/useAuthProvider";
+import { useNavigate } from "react-router-dom";
 
 
 
@@ -18,6 +19,7 @@ const CheckoutForm = ({ price }) => {
     const axiosPublic = useAxiosPublic();
     const amount = parseFloat(price);
 
+    const nav = useNavigate()
 
     useEffect(() => {
         axiosPublic.post('/create-payment-intent', { amount: amount })
@@ -94,9 +96,10 @@ const CheckoutForm = ({ price }) => {
                                 title: 'Payment Successful.',
                                 icon: 'success',
                                 confirmButtonColor: '#009EFF'
-                            })
+                            }).then(() => nav('/'))
                             axiosPublic.post('/paidUsers', paidData)
                                 .then(() => {
+
                                 })
 
                         }

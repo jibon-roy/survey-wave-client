@@ -44,8 +44,7 @@ HideOnScroll.propTypes = {
 };
 
 export default function Navbar(props) {
-    const role = useRole()
-    // console.log(role)
+    const [role] = useRole()
 
     const { user, logOut } = useAuthProvider();
     // console.log(user)
@@ -100,7 +99,7 @@ export default function Navbar(props) {
         </div>
         <div className='link font-semibold text-md'><NavLink to='/'><button className='p-2'>Home</button></NavLink></div>
         <div className='link font-semibold text-md'><NavLink to='/allSurvey'><button className='p-2'>All Survey</button></NavLink></div>
-        {(role === 'admin' || role === 'surveyor') &&
+        {user && (role === 'admin' || role === 'surveyor') &&
             <div className='link font-semibold text-md'><NavLink to='/dashboard'><button className='p-2'>Dashboard</button></NavLink></div>
         }
         <div className='link font-semibold text-md'><NavLink to='/pricing'><button className='p-2 flex items-center gap-1'><FcKey /> Buy Pro</button></NavLink></div>

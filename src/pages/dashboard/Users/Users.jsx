@@ -1,14 +1,20 @@
 // import { useQuery } from "@tanstack/react-query";
+// import { useQuery } from "@tanstack/react-query";
+// import CardPlaceHolder from "../../../components/cardPlaceHolder/CardPlaceHolder";
 import CustomHeader from "../../../components/customHeader/CustomHeader";
 import useAxiosSecure from "../../../hooks/useAxiosSecure";
 import UserDetails from "./UserDetails";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+// import CardPlaceHolder from "../../../components/cardPlaceHolder/CardPlaceHolder";
+import { useEffect } from "react";
+// import CardPlaceHolder from "../../../components/cardPlaceHolder/CardPlaceHolder";
 
 
 
 const Users = () => {
     const [filter, setFilter] = useState('allUsers');
-    const [data, setData] = useState()
+    const [data, setData] = useState([])
+    const [loading, setLoading] = useState(true)
 
 
     const axiosSecure = useAxiosSecure();
@@ -17,14 +23,22 @@ const Users = () => {
     //     queryKey: ['users'],
     //     queryFn: async () => {
     //         const res = await axiosSecure.post('/allUsers', { role: filter });
-    //         return res.data;
+    //         return res?.data;
     //     }
     // })
 
     useEffect(() => {
         axiosSecure.post('/allUsers', { role: filter })
-            .then(res => setData(res.data))
+            .then(res => {
+                setLoading(false)
+                setData(res?.data)
+            })
+            .catch(error => console.log(error.message))
     }, [axiosSecure, filter])
+
+    // if (isLoading) {
+    //     return <CardPlaceHolder></CardPlaceHolder>
+    // }
 
 
     return (
@@ -49,7 +63,12 @@ const Users = () => {
 
                             <th scope="col" className="text-primary-text">
                                 <span className="text-primary-bg mr-2">Filter:</span>
-                                <select value={filter} onChange={(e) => { setFilter(e.target.value) }} className="p-0 pl-1 font-medium" >
+                                <select value={filter}
+                                    onChange={(e) => {
+                                        // refetch()
+                                        setFilter(e.target.value)
+                                    }}
+                                    className="p-0 pl-1 font-medium" >
                                     <option defaultChecked value="allUsers">All Users</option>
                                     <option value="admin">Admin</option>
                                     <option value="surveyor">Surveyor</option>
@@ -63,7 +82,7 @@ const Users = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {
+                        {loading ? <span className="font-medium text-lg my-2 mx-2">Please wait ...</span> :
                             data?.map((user, index) => <UserDetails key={user?._id} user={user} index={index}></UserDetails>)
                         }
                     </tbody>

@@ -29,15 +29,12 @@ const AuthProvider = ({ children }) => {
                     const role = 'user'
                     const userData = { name, email, image, role }
                     axiosPublic.post('/newUser', userData)
-                        .then(res => {
-                            if (res) {
-                                Swal.fire({
-                                    title: "Log in Success!",
-                                    text: "Hey Welcome",
-                                    icon: "success"
-                                });
-                            }
-                        }).then(location.reload())
+                        .then()
+                    Swal.fire({
+                        title: "Log in Success!",
+                        text: "Hey Welcome",
+                        icon: "success"
+                    });
                 }
 
             })
@@ -59,9 +56,14 @@ const AuthProvider = ({ children }) => {
         return signInWithEmailAndPassword(auth, email, password)
     }
 
+    const logOut = () => {
+        return signOut(auth)
+            .then()
+    }
+
     // Check User
     useEffect(() => {
-        const unSubscribe = onAuthStateChanged(auth, (currentUser) => {
+        const unSubscribe = onAuthStateChanged(auth, async (currentUser) => {
 
             setUser(currentUser);
             if (currentUser) {
@@ -75,6 +77,7 @@ const AuthProvider = ({ children }) => {
                     })
             } else {
                 // Do something
+                await logOut()
                 localStorage.removeItem('access-token')
             }
             setLoading(false);
@@ -82,27 +85,6 @@ const AuthProvider = ({ children }) => {
         return () => unSubscribe();
     }, [axiosPublic])
 
-    const logOut = () => {
-        return signOut(auth)
-            .then(res => {
-                if (res) {
-                    Swal.fire({
-                        title: "Log Out Success!",
-                        text: "See You Again",
-                        icon: "success"
-                    });
-                }
-            })
-            .catch(err => {
-                if (err) {
-                    Swal.fire({
-                        title: "Opps...",
-                        text: "Something is wrong!",
-                        icon: "error"
-                    });
-                }
-            })
-    }
 
     const data = { createUserWithEmailPass, logInWithEmailPass, gmailUser, loading, user, logOut }
 

@@ -5,9 +5,9 @@ import useRole from "../../hooks/useRole";
 
 const Dashboard = () => {
     const { user } = useAuthProvider()
-    const userName = user?.displayName?.split(' ')[0]
+    const userName = user?.displayName
     const fullName = user?.displayName;
-    const role = useRole()
+    const [role] = useRole()
     return (
         <div>
             <CustomHeader name={'Admin Panel'}></CustomHeader>

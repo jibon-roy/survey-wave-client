@@ -41,6 +41,7 @@ const UserDetails = ({ user, index }) => {
                                 text: "Your file has been deleted.",
                                 icon: "success"
                             })
+                            setIsOpen(false)
                         }
 
 
@@ -75,7 +76,8 @@ const UserDetails = ({ user, index }) => {
                                 title: "Action Success",
                                 text: `${user?.name} has changed to ${userRole} `,
                                 icon: "success"
-                            }).then(location.reload())
+                            }).then(() => location.reload())
+                            setIsOpen(false)
                         }
                     })
             }

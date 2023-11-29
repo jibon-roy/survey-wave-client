@@ -8,8 +8,8 @@ import { TypeAnimation } from "react-type-animation";
 const Banner = () => {
     return (
         <div>
-            <div className="md:flex relative min-h-[60vh] justify-between items-center">
-                <img src="/bg.webp" className="absolute z-0 opacity-10 w-full h-[70vh] md:h-[60vh] top-0 max-md:-top-10 left-0"></img>
+            <div className="md:flex relative min-h-[70vh] justify-between items-center">
+                <img src="/bg.webp" className="absolute z-0 opacity-10 w-full h-[100vh] md:h-[70vh] top-0 max-md:-top-10 left-0"></img>
                 <div className="flex md:w-[50%] pt-10 h-full items-center px-4 max-md:justify-center max-md:my-10">
                     <div >
                         <img src="./logo.png" className="w-52 max-md:mx-auto block " alt="" />

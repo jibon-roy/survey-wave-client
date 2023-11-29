@@ -11,10 +11,10 @@ const LatestSurveys = () => {
 
     const axiosPublic = useAxiosPublic();
     const { data, isLoading } = useQuery({
-        queryKey: ['surveys'],
+        queryKey: ['latestSurveys'],
         queryFn: async () => {
             const res = await axiosPublic.get('/surveys');
-            return res.data;
+            return res?.data?.slice(0, 6);
         }
     })
 
@@ -32,7 +32,7 @@ const LatestSurveys = () => {
                     isLoading ? <CardPlaceHolder></CardPlaceHolder> : <Cards data={data}></Cards>
                 }
                 <div className="text-center mt-10">
-                    <Link to='/h' className='text-center'>
+                    <Link to='/allSurvey' className='text-center'>
                         <PrimaryBtn variant='outlined' main>
                             Explore All
                             <svg fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="w-4 h-4 ml-2" viewBox="0 0 24 24">

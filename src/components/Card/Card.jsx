@@ -41,13 +41,13 @@ const Card = ({ survey }) => {
                 <div className='flex flex-wrap justify-between items-center'>
                     <div className='flex gap-4'>
                         <div className='flex gap-1'>
-                            <ThumbUpOutlinedIcon className='hover:text-primary-main cursor-pointer transition'></ThumbUpOutlinedIcon>{likes}
+                            <ThumbUpOutlinedIcon ></ThumbUpOutlinedIcon>{likes}
                         </div>
                         <div className='flex gap-1'>
-                            <ThumbDownAltOutlined className='hover:text-primary-main cursor-pointer transition'></ThumbDownAltOutlined>{disLikes}
+                            <ThumbDownAltOutlined ></ThumbDownAltOutlined>{disLikes}
                         </div>
                         <div className='flex gap-1'>
-                            <SmsOutlinedIcon className='hover:text-primary-main cursor-pointer transition'></SmsOutlinedIcon>{totalComments}
+                            <SmsOutlinedIcon ></SmsOutlinedIcon>{totalComments}
                         </div>
                     </div>
                     <div className="text-blue-500 inline-flex items-center my-2">

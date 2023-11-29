@@ -14,9 +14,11 @@ const FeaturedSurveys = () => {
         queryKey: ['surveys'],
         queryFn: async () => {
             const res = await axiosPublic.get('/surveys');
-            return res.data;
+            return res?.data?.slice(0, 6);
         }
     })
+
+    const sortByMostVote = data?.sort((a, b) => (b?.totalTrueVote?.length + b?.totalFalseVote?.length) - (a?.totalTrueVote?.length + a?.totalFalseVote?.length))
 
 
     return (
@@ -28,10 +30,10 @@ const FeaturedSurveys = () => {
                     From product preferences to service feedback, stay connected to influential insights.
                 </CustomHeader>
                 {
-                    isLoading ? <CardPlaceHolder></CardPlaceHolder> : <Cards data={data}></Cards>
+                    isLoading ? <CardPlaceHolder></CardPlaceHolder> : <Cards data={sortByMostVote}></Cards>
                 }
                 <div className="text-center mt-10">
-                    <Link to='/h' className='text-center'>
+                    <Link to='/allSurvey' className='text-center'>
                         <PrimaryBtn variant='outlined' main>
                             Explore All
                             <svg fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="w-4 h-4 ml-2" viewBox="0 0 24 24">

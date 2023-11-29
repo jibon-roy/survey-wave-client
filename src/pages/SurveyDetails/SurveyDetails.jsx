@@ -5,7 +5,7 @@ import { ThumbDownAltOutlined } from '@mui/icons-material';
 import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
 import SmsOutlinedIcon from '@mui/icons-material/SmsOutlined';
 import ReportGmailerrorredIcon from '@mui/icons-material/ReportGmailerrorred';
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import moment from "moment";
 import useAuthProvider from "../../hooks/useAuthProvider";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
@@ -31,7 +31,7 @@ const SurveyDetails = () => {
     const { data: survey, isLoading, refetch, } = useQuery({
         queryKey: ['surveyData'],
         queryFn: async () => {
-            const response = await axiosPublic.get(`/surveys/${params.id}`); // Replace with your actual API endpoint
+            const response = await axiosPublic.get(`/surveys/${params?.id}`); // Replace with your actual API endpoint
             return response.data;
         }
     })
@@ -203,9 +203,11 @@ const SurveyDetails = () => {
             <div>
                 <CustomHeader name='Details page of' subject={survey?.title}></CustomHeader>
             </div>
+            <div className="-mt-10 mb-10 w-full h-px rounded-sm bg-primary-text"></div>
+
             <div className="md:flex mx-2 gap-4">
                 <div className="my-5 mx-2 md:w-1/2">
-                    <div className="font-semibold text-xl"> Title: {survey?.title}</div>
+                    <div className="font-semibold text-xl mb-2"> Title: {survey?.title}</div>
                     <div className="font-medium text-lg">Description:</div>
                     <div className="text-justify">
                         {survey?.body}
@@ -230,54 +232,69 @@ const SurveyDetails = () => {
                 </div>
                 {/* Details bar and vote */}
                 <div className="w-full h-1 md:w-1 md:h-[250px] bg-primary-main"></div>
-                <table className="my-5 mx-2">
-                    <tbody>
-                        <tr>
-                            <td className="font-semibold">Posted</td>
-                            <td className="font-semibold px-4">:</td>
-                            <td>{posted}</td>
-                        </tr>
-                        <tr>
-                            <td className="font-semibold">Posted Date</td>
-                            <td className="font-semibold px-4">:</td>
-                            <td> {formattedDate}</td>
-                        </tr>
-                        <tr>
-                            <td className="font-semibold">Deadline</td>
-                            <td className="font-semibold px-4">:</td>
-                            <td className="text-red-500">{deadline}</td>
-                        </tr>
-                        <tr>
-                            <td className="font-semibold">Total Vote</td>
-                            <td className="font-semibold px-4">:</td>
-                            <td >{totalVote}</td>
-                        </tr>
-                        <tr>
-                            <td className="font-semibold align-top">Vote</td>
-                            <td className="font-semibold align-top px-4">:</td>
-                            <td className="align-top">
-                                <form onSubmit={handleSubmitVote}>
-                                    <div className="flex justify-between items-center flex-wrap gap-2">
-                                        <div className="flex cursor-pointer items-center">
-                                            <input disabled={disableVote} onChange={handleRadioChange} id="radio-1" type="radio" value="Yes" name="Vote" className="w-4 h-4 cursor-pointer text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-                                            <label htmlFor="radio-1" className="ms-2 text-sm cursor-pointer font-medium text-gray-900 dark:text-gray-300">Yes</label>
+
+                <div>
+                    <div className="mx-auto max-md:mt-5 text-center text-xl font-semibold underline">Voting Poll</div>
+                    <table className="my-5 mx-2">
+                        <tbody>
+                            <tr>
+                                <td className="font-semibold">Posted</td>
+                                <td className="font-semibold px-4">:</td>
+                                <td>{posted}</td>
+                            </tr>
+                            <tr>
+                                <td className="font-semibold">Posted Date</td>
+                                <td className="font-semibold px-4">:</td>
+                                <td> {formattedDate}</td>
+                            </tr>
+                            <tr>
+                                <td className="font-semibold">Deadline</td>
+                                <td className="font-semibold px-4">:</td>
+                                <td className="text-red-500">{deadline}</td>
+                            </tr>
+                            <tr>
+                                <td className="font-semibold align-top">Survey Result</td>
+                                <td className="font-semibold align-top px-4">:</td>
+                                <td className="flex justify-between align-top">
+                                    <div>Yes: {survey?.totalTrueVote?.length}</div>
+                                    <div>No: {survey?.totalFalseVote?.length} </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td className="font-semibold">Total Vote</td>
+                                <td className="font-semibold px-4">:</td>
+                                <td >{totalVote}</td>
+                            </tr>
+
+                            <tr>
+                                <td className="font-semibold align-top">Your Vote</td>
+                                <td className="font-semibold align-top px-4">:</td>
+                                <td className="align-top">
+                                    <form onSubmit={handleSubmitVote}>
+                                        <div className="flex justify-between items-center flex-wrap gap-2">
+                                            <div className="flex cursor-pointer items-center">
+                                                <input disabled={disableVote} onChange={handleRadioChange} id="radio-1" type="radio" value="Yes" name="Vote" className="w-4 h-4 cursor-pointer text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                                                <label htmlFor="radio-1" className="ms-2 text-sm cursor-pointer font-medium text-gray-900 dark:text-gray-300">Yes</label>
+                                            </div>
+                                            <div className="flex items-center">
+                                                <input disabled={disableVote} onChange={handleRadioChange} id="radio-2" type="radio" value="No" name="Vote" className="w-4 h-4 cursor-pointer text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                                                <label htmlFor="radio-2" className="ms-2 text-sm cursor-pointer font-medium text-gray-900 dark:text-gray-300">No</label>
+                                            </div>
                                         </div>
-                                        <div className="flex items-center">
-                                            <input disabled={disableVote} onChange={handleRadioChange} id="radio-2" type="radio" value="No" name="Vote" className="w-4 h-4 cursor-pointer text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-                                            <label htmlFor="radio-2" className="ms-2 text-sm cursor-pointer font-medium text-gray-900 dark:text-gray-300">No</label>
-                                        </div>
-                                    </div>
-                                    <button disabled={disableVote} type="submit"
-                                        className={disableVote ? "text-white mt-4 text-center bg-blue-300 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-primary-main focus:outline-none dark:focus:ring-blue-800" : "text-white mt-4 text-center bg-primary-main hover:bg-blue-500 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-primary-main focus:outline-none dark:focus:ring-blue-800"}>Submit Vote</button>
-                                </form>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                                        <button disabled={disableVote} type="submit"
+                                            className={disableVote ? "text-white mt-4 text-center bg-blue-300 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-primary-main focus:outline-none dark:focus:ring-blue-800" : "text-white mt-4 text-center bg-primary-main hover:bg-blue-500 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-primary-main focus:outline-none dark:focus:ring-blue-800"}>Submit Vote</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
             {/* Comment section */}
             <form>
-                <div className="w-[95%] md:w-1/2 mt-10 mx-auto mb-4 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
+
+                <div className="w-[95%] md:w-1/2 mt-10 md:ml-4 bg-primary-bg2 max-md:mx-auto mb-4 border  dark:bg-gray-700">
+                    <div className="p-2">Write a comment: (Only for pro user or, <Link to='/pricing' className="text-blue-600 font-medium">Buy Pro</Link>)</div>
                     <div className="px-4 py-2 bg-white rounded-t-lg dark:bg-gray-800">
                         <label htmlFor="comment" className="sr-only">Your comment</label>
                         <textarea id="comment" rows="4" className="w-full px-0 text-sm text-gray-900 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400" placeholder="Write a comment..." required></textarea>
@@ -309,11 +326,44 @@ const SurveyDetails = () => {
                     </div>
                 </div>
             </form>
-            <p className="mx-auto text-center text-xs text-gray-500 dark:text-gray-400">Remember, contributions to this topic should follow our <a href="#" className="text-blue-600 dark:text-blue-500 hover:underline">Community Guidelines</a>.</p>
+            <p className="mx-auto text-center md:text-left md:pl-5 text-xs text-gray-500 dark:text-gray-400">Remember, contributions to this topic should follow our <a href="#" className="text-blue-600  hover:underline">Community Guidelines</a>.</p>
             {/* Comment Section */}
-            <div className="mx-2">
-                <div className="font-semibold text-2xl mt-10">Recent Comments: {totalComments}</div>
-                <div className="my-5 w-full h-1 rounded-sm bg-primary-text"></div>
+            <div className="mx-4">
+                <div className="font-semibold text-xl mt-10">Recent Comments: {totalComments}</div>
+                <div className="my-3 w-full h-px rounded-sm bg-primary-text"></div>
+                <div>
+                    <div className="mt-10">
+
+                        <div className="flex gap-2">
+                            <svg className="w-7 h-7 text-gray-700  mb-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M18 5h-.7c.229-.467.349-.98.351-1.5a3.5 3.5 0 0 0-3.5-3.5c-1.717 0-3.215 1.2-4.331 2.481C8.4.842 6.949 0 5.5 0A3.5 3.5 0 0 0 2 3.5c.003.52.123 1.033.351 1.5H2a2 2 0 0 0-2 2v3a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1V7a2 2 0 0 0-2-2ZM8.058 5H5.5a1.5 1.5 0 0 1 0-3c.9 0 2 .754 3.092 2.122-.219.337-.392.635-.534.878Zm6.1 0h-3.742c.933-1.368 2.371-3 3.739-3a1.5 1.5 0 0 1 0 3h.003ZM11 13H9v7h2v-7Zm-4 0H2v5a2 2 0 0 0 2 2h3v-7Zm6 0v7h3a2 2 0 0 0 2-2v-5h-5Z" />
+                            </svg>
+                            <h5 className="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">Need a help in Claim?</h5>
+                        </div>
+                        <p className="mb-3 font-normal text-gray-700 "><span className="font-semibold">Comment:</span> Go to this step by step guideline process on how to certify for your weekly benefits:</p>
+                    </div>
+                    <div className="mt-10">
+
+                        <div className="flex gap-2">
+                            <svg className="w-7 h-7 text-gray-700  mb-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M18 5h-.7c.229-.467.349-.98.351-1.5a3.5 3.5 0 0 0-3.5-3.5c-1.717 0-3.215 1.2-4.331 2.481C8.4.842 6.949 0 5.5 0A3.5 3.5 0 0 0 2 3.5c.003.52.123 1.033.351 1.5H2a2 2 0 0 0-2 2v3a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1V7a2 2 0 0 0-2-2ZM8.058 5H5.5a1.5 1.5 0 0 1 0-3c.9 0 2 .754 3.092 2.122-.219.337-.392.635-.534.878Zm6.1 0h-3.742c.933-1.368 2.371-3 3.739-3a1.5 1.5 0 0 1 0 3h.003ZM11 13H9v7h2v-7Zm-4 0H2v5a2 2 0 0 0 2 2h3v-7Zm6 0v7h3a2 2 0 0 0 2-2v-5h-5Z" />
+                            </svg>
+                            <h5 className="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">Need a help in Claim?</h5>
+                        </div>
+                        <p className="mb-3 font-normal text-gray-700 "><span className="font-semibold">Comment:</span> Go to this step by step guideline process on how to certify for your weekly benefits:</p>
+                    </div>
+                    <div className="mt-10">
+
+                        <div className="flex gap-2">
+                            <svg className="w-7 h-7 text-gray-700  mb-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M18 5h-.7c.229-.467.349-.98.351-1.5a3.5 3.5 0 0 0-3.5-3.5c-1.717 0-3.215 1.2-4.331 2.481C8.4.842 6.949 0 5.5 0A3.5 3.5 0 0 0 2 3.5c.003.52.123 1.033.351 1.5H2a2 2 0 0 0-2 2v3a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1V7a2 2 0 0 0-2-2ZM8.058 5H5.5a1.5 1.5 0 0 1 0-3c.9 0 2 .754 3.092 2.122-.219.337-.392.635-.534.878Zm6.1 0h-3.742c.933-1.368 2.371-3 3.739-3a1.5 1.5 0 0 1 0 3h.003ZM11 13H9v7h2v-7Zm-4 0H2v5a2 2 0 0 0 2 2h3v-7Zm6 0v7h3a2 2 0 0 0 2-2v-5h-5Z" />
+                            </svg>
+                            <h5 className="mb-2 text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">Need a help in Claim?</h5>
+                        </div>
+                        <p className="mb-3 font-normal text-gray-700 "><span className="font-semibold">Comment:</span> Go to this step by step guideline process on how to certify for your weekly benefits:</p>
+                    </div>
+
+                </div>
             </div>
         </div>
     );

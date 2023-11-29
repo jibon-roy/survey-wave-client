@@ -48,7 +48,6 @@ const UserDetails = ({ user, index }) => {
 
             }
         });
-
     }
     // Admin action
     const handleActionSubmit = (e) => {
@@ -138,18 +137,27 @@ const UserDetails = ({ user, index }) => {
                                         <form onSubmit={handleActionSubmit}>
                                             <div className="mx-auto text-2xl font-semibold text-center">Admin Action</div>
                                             <div className="text-primary-text mt-4 mb-2 mr-2">Change Role:</div>
-                                            <select value={userRole} onChange={(e) => { setUserRole(e.target.value) }} className=" pl-2 rounded-lg font-medium w-full border-2 border-primary-main" >
+                                            <select id="select" name="select" value={userRole} onChange={(e) => { setUserRole(e.target.value) }} className=" pl-2 rounded-lg font-medium w-full border-2 border-primary-main" >
                                                 <option defaultChecked value="admin">Admin</option>
                                                 <option value="surveyor">Surveyor</option>
                                                 <option value="pro">Pro</option>
                                                 <option value="user">User</option>
                                             </select>
-                                            <button
-                                                type="submit"
-                                                className="text-white w-full bg-blue-500 border-0 py-2 px-8 focus:outline-none hover:bg-blue-600 rounded-lg mt-4 text-lg"
-                                            >
-                                                Done
-                                            </button>
+                                            <div className="flex gap-3">
+                                                <button
+                                                    type="submit"
+                                                    className="text-white w-1/2 bg-blue-500 border-0 py-2 px-8 focus:outline-none hover:bg-blue-600 rounded-lg mt-4 text-lg"
+                                                >
+                                                    Done
+                                                </button>
+                                                <button
+                                                    onClick={closeModal}
+                                                    type="reset"
+                                                    className="text-primary-text w-1/2 bg-primary-bg2 border-2 border-primary-main py-2 px-8 focus:outline-none hover:bg-blue-200 rounded-lg mt-4 text-lg"
+                                                >
+                                                    Cancel
+                                                </button>
+                                            </div>
                                         </form>
                                     </Dialog.Panel>
                                 </Transition.Child>

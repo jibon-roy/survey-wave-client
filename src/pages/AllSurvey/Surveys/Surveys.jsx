@@ -4,52 +4,95 @@ import CustomHeader from '../../../components/customHeader/CustomHeader';
 import useAxiosPublic from '../../../hooks/useAxiosPublic';
 import { useQuery } from '@tanstack/react-query';
 import CardPlaceHolder from '../../../components/cardPlaceHolder/CardPlaceHolder';
+import { useEffect, useState } from 'react';
 
 
 const Surveys = () => {
 
     const axiosPublic = useAxiosPublic();
-
-    const { data, isLoading } = useQuery({
+    const { data: datas, isLoading } = useQuery({
         queryKey: ['surveys'],
         queryFn: async () => {
             const res = await axiosPublic.get('/surveys');
             return res.data;
         }
     })
+    const [data, setData] = useState([])
+
+    useEffect(() => {
+        if (!isLoading) {
+            const sortedData = datas.slice().sort((a, b) => a.title.localeCompare(b.title));
+            setData(sortedData);
+        }
+    }, [datas, isLoading]);
+
+
+
+    const handleTitleChange = (e) => {
+        if (e.currentTarget.value === 'A - Z') {
+            const sortedData = datas.slice().sort((a, b) => a.title.localeCompare(b.title));
+            setData(sortedData);
+        } else if (e.currentTarget.value === 'Z - A') {
+            const sortedData = datas.slice().sort((a, b) => b.title.localeCompare(a.title));
+            setData(sortedData);
+        }
+    }
+    const handleCategoryChange = (e) => {
+        const selectedCategory = e.currentTarget.value;
+
+        if (selectedCategory === 'All') {
+            setData(datas);
+        } else {
+            const filteredData = datas.filter(item => item?.category === selectedCategory);
+            setData(filteredData);
+        }
+    }
+    const handleVoteChange = (e) => {
+        const selectedOption = e.currentTarget.value;
+        if (selectedOption === 'Max') {
+            const sortedData = datas.slice().sort((a, b) => (b?.totalTrueVote?.length + b?.totalFalseVote?.length) - (a?.totalTrueVote?.length + a?.totalFalseVote?.length));
+            setData(sortedData);
+        } else if (selectedOption === 'Min') {
+            const sortedData = datas.slice().sort((a, b) => (a?.totalTrueVote?.length + a?.totalFalseVote?.length) - (b?.totalTrueVote?.length + b?.totalFalseVote?.length));
+            setData(sortedData);
+        }
+    }
 
     return (
         <div>
-            <form>
-                <div className="flex mx-auto my-10 px-2 max-w-lg">
-                    <select id="categories" className="flex-shrink-0 z-10 inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-gray-900 bg-gray-100 border border-gray-300 rounded-s-lg hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700 dark:text-white dark:border-gray-600">
-                        <option className="inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">All categories</option>
-                        <option className="inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Mockups</option>
-                        <option className="inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Templates</option>
-                        <option className="inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Design</option>
-                        <option type="button" className="inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Logos</option>
-                    </select>
-                    <div className="relative w-full">
-                        <input type="search" id="search-dropdown" className="block p-2.5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-e-lg border-s-gray-50 border-s-2 border border-gray-300 focus:ring-primary-main focus:border-primary-main dark:bg-gray-700 dark:border-s-gray-700  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-primary-main" placeholder="Search by anything" required />
-                        <button type="submit" className="absolute top-0 end-0 px-2.5 text-sm font-medium h-full text-white bg-primary-main rounded-e-lg border border-primary-main hover:bg-primary-main focus:ring-4 focus:outline-none focus:ring-primary-main dark:bg-primary-main dark:hover:bg-primary-main dark:focus:ring-primary-main">
-                            <svg className="w-4 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
-                            </svg>
-                            <span className="sr-only">Search</span>
-                        </button>
-                    </div>
-                </div>
-            </form>
-            <div className='text-center font-bold text-4xl'>
+            <div className='text-center mt-10 font-bold text-4xl'>
                 <CustomHeader subject=' All Surveys'></CustomHeader>
             </div>
+            <form className='-mt-10'>
+                <div className='ml-4 text-center font-semibold mr-2'>Filter by:</div>
+                <div className="flex items-center justify-center mb-10 px-2">
+                    <select id="title" defaultValue='A - Z' onChange={handleTitleChange} className="flex-shrink-0 z-10 inline-flex items-center py-2.5 px-2.5 text-sm font-medium text-center text-gray-900 bg-gray-100 border border-gray-300 rounded-s-lg hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700 dark:text-white dark:border-gray-600">
+                        <option className="py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" value={'A - Z'}>A - Z</option>
+                        <option className="py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" value={'Z - A'}>Z - A</option>
+                    </select>
+                    <select id="categories" onChange={handleCategoryChange} className="flex-shrink-0 z-10 inline-flex items-center py-2.5 px-2.5 text-sm font-medium text-center text-gray-900 bg-gray-100 border border-gray-300  hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700 dark:text-white dark:border-gray-600">
+                        <option className="py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" value={'All'}>All categories</option>
+                        <option className="py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" value={'Education'}>Education</option>
+                        <option className="py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" value={'Health'}>Health</option>
+                        <option className="py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" value={'Technology'}>Technology</option>
+                        <option className="py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" value={'Entertainment'}>Entertainment</option>
+                        <option className="py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" value={'Travel'}>Travel</option>
+                    </select>
+                    <select id="vote" onChange={handleVoteChange} className="flex-shrink-0 z-10 inline-flex items-center py-2.5 px-2.5 text-sm font-medium text-center text-gray-900 bg-gray-100 border border-gray-300 rounded-e-lg hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:focus:ring-gray-700 dark:text-white dark:border-gray-600">
+                        <option className="py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" value={'Max'}>Max Vote</option>
+                        <option className="py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" value={'Min'}>Min Vote</option>
+                    </select>
+
+                </div>
+            </form>
+
             {
                 isLoading ? <div>
                     <CardPlaceHolder></CardPlaceHolder>
                 </div>
                     :
                     <div>
-                        <div className='mb-20 mx-2'>
+                        <div className='mb-20 mx-4'>
                             <Cards data={data}></Cards>
                         </div>
                         <div className='text-center mb-10 mx-2'>

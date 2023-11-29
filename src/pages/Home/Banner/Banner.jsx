@@ -1,5 +1,6 @@
 import { Button } from "@mui/material";
 import moment from "moment/moment";
+import { Link } from "react-router-dom";
 import { TypeAnimation } from "react-type-animation";
 
 
@@ -30,9 +31,11 @@ const Banner = () => {
                             Survey Wave is your go-to platform for seamless and insightful surveys. Empower your decision-making with user-friendly surveys, real-time analytics, and customizable features for a comprehensive data-driven experience.
                         </p>
                         <br></br>
-                        <Button color='primary' variant="contained" size="large" sx={{ color: "white", fontWeight: 'medium', marginLeft: '8px' }}>
-                            Explore more
-                        </Button>
+                        <Link to='/allSurvey'>
+                            <Button color='primary' variant="contained" size="large" sx={{ color: "white", fontWeight: 'medium', marginLeft: '8px' }}>
+                                Explore more
+                            </Button>
+                        </Link>
                     </div>
                 </div>
                 <div className="mx-auto text-center z-20">

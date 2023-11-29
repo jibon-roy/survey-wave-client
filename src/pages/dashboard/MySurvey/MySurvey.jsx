@@ -20,7 +20,7 @@ const MySurvey = () => {
 
     return (
         <div>
-            <CustomHeader name='Surveys' subject={'All Surveys Are Here'}></CustomHeader>
+            <CustomHeader name='Surveys' subject={'My Surveys Are Here'}></CustomHeader>
             <div className="w-full h-px bg-primary-text -mt-10 mb-10"></div>
             {
                 isLoading ? "Loading Data ..."
@@ -33,7 +33,7 @@ const MySurvey = () => {
                                         SL. Survey Title
                                     </th>
                                     <th scope="col" className="px-6 py-3">
-                                        Voted
+                                        Response
                                     </th>
                                     <th scope="col" className="px-6 py-3">
                                         Likes

@@ -12,7 +12,7 @@ const Table = ({ survey, index, refetch }) => {
     let [isOpen, setIsOpen] = useState(false);
     const axiosSecure = useAxiosSecure()
     // const { user: activeUser } = useAuthProvider()
-    const [surveyStatus, setSurveyStatus] = useState()
+    const [surveyStatus, setSurveyStatus] = useState(true)
 
 
     function closeModal() {
@@ -27,14 +27,14 @@ const Table = ({ survey, index, refetch }) => {
     const handleActionSubmit = (e) => {
         e.preventDefault()
 
-        const editUser = {
+        const report = {
             status: surveyStatus,
-
+            adminComment: e.currentTarget.report.value
         }
 
         Swal.fire({
             title: "Are you sure?",
-            text: `Make  to ${surveyStatus}`,
+            text: `Make Status to ${surveyStatus ? 'Running' : 'Stop'}`,
             icon: "warning",
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
@@ -42,19 +42,19 @@ const Table = ({ survey, index, refetch }) => {
             confirmButtonText: "Confirm"
         }).then((result) => {
             if (result.isConfirmed) {
-                axiosSecure.put('/changeRole', editUser)
+                setIsOpen(false)
+                axiosSecure.patch(`/reportSurvey/${survey?._id}`, report)
                     .then(res => {
                         if (res.data) {
                             Swal.fire({
                                 title: "Action Success",
-                                text: `has changed to ${surveyStatus} `,
+                                text: `Has changed to ${surveyStatus} `,
                                 icon: "success"
                             }).then(() => refetch())
                         }
                     })
             }
         });
-
 
         // const userRoleSet = userRole
 
@@ -126,12 +126,13 @@ const Table = ({ survey, index, refetch }) => {
                                             <div className="text-primary-text mt-4 mb-2 mr-2">Change survey status:</div>
                                             <select id="select" name="select"
                                                 value={surveyStatus} onChange={(e) => { setSurveyStatus(e.target.value) }} className=" pl-2 rounded-lg font-medium w-full border-2 border-primary-main" >
-                                                <option defaultChecked value="true">Run Survey</option>
-                                                <option value="false">Stop Survey</option>
+                                                <option defaultChecked value={true}>Running</option>
+                                                <option value={false}>Stop</option>
                                             </select>
-                                            <div className="px-4 border-2 mt-2 border-primary-main py-2 bg-white rounded-lg dark:bg-gray-800">
-                                                <label htmlFor="comment" className="sr-only">Your comment</label>
-                                                <textarea id="comment" rows="4" className="w-full px-0 text-sm text-gray-900 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400" placeholder="Write a comment..." required></textarea>
+                                            <div className="mt-2">Your feedback<span className="text-red-600">*</span></div>
+                                            <div className="px-4 border-2 border-primary-main py-2 bg-white rounded-lg dark:bg-gray-800">
+                                                <label htmlFor="comment" className="sr-only">Your feedback</label>
+                                                <textarea id="comment" name='report' rows="4" className="w-full px-0 text-sm text-gray-900 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400" placeholder='Write a feedback...' required></textarea>
                                             </div>
                                             <div className="flex gap-3">
                                                 <button

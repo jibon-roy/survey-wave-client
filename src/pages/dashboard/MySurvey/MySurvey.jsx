@@ -9,7 +9,7 @@ const MySurvey = () => {
 
     const axiosSecure = useAxiosSecure();
     const { user } = useAuthProvider();
-    const { data, isLoading } = useQuery({
+    const { data, isLoading, refetch } = useQuery({
         queryKey: ['mySurvey'],
         queryFn: async () => {
             const res = await axiosSecure.get(`/specificSurvey/${user?.email}`)
@@ -48,7 +48,7 @@ const MySurvey = () => {
                             </thead>
                             <tbody>
                                 {
-                                    data?.map((survey, idx) => <Table key={survey?._id} index={idx} survey={survey}></Table>)
+                                    data?.map((survey, idx) => <Table key={survey?._id} refetch={refetch} index={idx} survey={survey}></Table>)
                                 }
                             </tbody>
                         </table>

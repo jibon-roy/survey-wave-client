@@ -13,7 +13,6 @@ import DashboardLayout from "../layouts/dashboardLayout/DashboardLayout";
 import Dashboard from "../pages/dashboard/Dashboard";
 import CreateSurvey from "../pages/dashboard/CreateSurvey/CreateSurvey";
 import MySurvey from "../pages/dashboard/MySurvey/MySurvey";
-import SurveyResponse from "../pages/dashboard/SurveyResponse/SurveyResponse";
 import Reports from "../pages/dashboard/Reports/Reports";
 import Users from "../pages/dashboard/Users/Users";
 import UpdateSurvey from "../pages/dashboard/updateSurvey/UpdateSurvey";
@@ -82,10 +81,6 @@ const router = createBrowserRouter([
             {
                 path: '/dashboard/allSurveys',
                 element: <AllAdminSurveys></AllAdminSurveys>
-            },
-            {
-                path: '/dashboard/surveyResponse',
-                element: <SurveyResponse></SurveyResponse>
             },
             {
                 path: '/dashboard/reports',

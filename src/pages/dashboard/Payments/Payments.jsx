@@ -13,19 +13,19 @@ const Payments = () => {
                         <thead className="text-md text-primary-bg uppercase bg-primary-main dark:text-primary-bg">
                             <tr>
                                 <th scope="col" className="px-6 py-3">
-                                    SL. Survey Title
+                                    SL.
                                 </th>
                                 <th scope="col" className="px-6 py-3">
-                                    Voted
+                                    User Name
                                 </th>
                                 <th scope="col" className="px-6 py-3">
-                                    Likes
+                                    Pending
                                 </th>
                                 <th scope="col" className="px-6 py-3">
                                     status
                                 </th>
                                 <th scope="col" className="px-6 py-3">
-                                    Action
+                                    $ Paid
                                 </th>
                             </tr>
                         </thead>

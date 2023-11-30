@@ -102,7 +102,10 @@ export default function Navbar(props) {
         {user && (role === 'admin' || role === 'surveyor') &&
             <div className='link font-semibold text-md'><NavLink to='/dashboard'><button className='p-2'>Dashboard</button></NavLink></div>
         }
-        <div className='link font-semibold text-md'><NavLink to='/pricing'><button className='p-2 flex items-center gap-1'><FcKey /> Buy Pro</button></NavLink></div>
+        {(role === 'admin' | role === 'surveyor' | role === 'pro') ?
+            <div className='px-1 py-0 flex border rounded-lg border-primary-text items-center capitalize font-semibold gap-1'>{role}</div>
+            : <div className='link font-semibold text-md'><NavLink to='/pricing'><button className='p-2 flex items-center gap-1'><FcKey /> Buy Pro</button></NavLink></div>}
+
         {user && <div className='link font-semibold text-md'><button onClick={logOut} className='p-2'>Logout</button></div>}
     </>
 

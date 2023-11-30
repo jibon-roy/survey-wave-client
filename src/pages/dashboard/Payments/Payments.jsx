@@ -49,7 +49,9 @@ const Payments = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {isPending ? <p className="font-medium text-lg my-2 mx-2">Please wait ...</p> :
+                            {isPending ? <tr className="font-medium text-lg my-2 mx-2">
+                                <td>Please wait ...</td>
+                            </tr> :
 
                                 data?.map((userDetail, idx) => <Table key={userDetail?._id} userDetail={userDetail} index={idx} refetch={refetch} isLoading={isLoading}></Table>)
                             }

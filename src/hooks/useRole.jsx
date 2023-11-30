@@ -18,7 +18,6 @@ const useRole = () => {
         }
     })
 
-    console.log(role)
     return [role]
 };
 

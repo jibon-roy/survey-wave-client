@@ -4,7 +4,7 @@ import useAuthProvider from "./useAuthProvider";
 
 
 const axiosSecure = axios.create({
-    baseURL: 'http://localhost:5000'
+    baseURL: 'https://survey-wave-server.vercel.app'
 })
 const useAxiosSecure = () => {
 

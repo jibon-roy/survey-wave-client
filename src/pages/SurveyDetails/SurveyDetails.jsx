@@ -16,8 +16,20 @@ import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 import useRole from "../../hooks/useRole";
 import CardPlaceHolder from "../../components/cardPlaceHolder/CardPlaceHolder";
 import Comments from "./Comments";
+import { Dialog, Transition } from '@headlessui/react'
+import { Fragment } from 'react'
+
 
 const SurveyDetails = () => {
+    let [isOpen, setIsOpen] = useState(false);
+
+    function closeModal() {
+        setIsOpen(false)
+    }
+
+    function openModal() {
+        setIsOpen(true)
+    }
     // const data = useLoaderData()
     const [commenter, setCommenter] = useState(true)
     const [role] = useRole()
@@ -191,25 +203,45 @@ const SurveyDetails = () => {
         }
     }
 
-    const reportButton = () => {
+    const handleReportSubmit = (e) => {
+        e.preventDefault()
+
+        const report = e.currentTarget.report.value;
+        const userName = user?.displayName
+        const email = user?.email
+        const photo = user?.photoURL
+        const reportData = { report, userName, email, photo }
+
         Swal.fire({
             title: "Are you sure?",
             text: "You want to report this!",
             icon: "warning",
             showCancelButton: true,
-            confirmButtonColor: "#3085d6",
+            confirmButtonColor: "#cc0000",
             cancelButtonColor: "#009EFF",
             confirmButtonText: "Yes, Report!"
         }).then((result) => {
             if (result.isConfirmed) {
-                Swal.fire({
-                    title: "Reported!",
-                    text: "Your feedback successful.",
-                    confirmButtonColor: "#009EFF",
-                    icon: "success"
-                });
+                axiosSecure.post(`/report/${survey?._id}`, reportData)
+                    .then(() => {
+                        Swal.fire({
+                            title: "Reported!",
+                            text: "Your feedback successful.",
+                            confirmButtonColor: "#009EFF",
+                            icon: "success"
+                        });
+                    }).catch(() => {
+                        Swal.fire({
+                            title: "Opps",
+                            text: "Your feedback is not successful.",
+                            confirmButtonColor: "#009EFF",
+                            icon: "error"
+                        })
+                    })
+                setIsOpen(false)
             }
         });
+        e.currentTarget.reset();
     }
 
     const handleComment = (e) => {
@@ -261,17 +293,84 @@ const SurveyDetails = () => {
                     <div className='flex flex-wrap mt-10 justify-between items-center'>
                         <div className='flex gap-4'>
                             <div className='flex gap-1'>
-                                <button disabled={disableLike} onClick={handleLike}>{disableLike ? <ThumbUpIcon></ThumbUpIcon> : <ThumbUpOutlinedIcon className='hover:text-primary-main cursor-pointer transition'></ThumbUpOutlinedIcon>}</button>{likes}
+                                <button disabled={disableLike} onClick={handleLike}>{disableLike ? <ThumbUpIcon></ThumbUpIcon> : <ThumbUpOutlinedIcon className={!user ? 'text-gray-600' : 'hover:text-primary-main cursor-pointer transition'}></ThumbUpOutlinedIcon>}</button>{likes}
                             </div>
                             <div className='flex gap-1'>
-                                <button disabled={disableDisLike} onClick={handleDisLike}>{disableDisLike ? <ThumbDownIcon></ThumbDownIcon> : <ThumbDownAltOutlined className='hover:text-primary-main cursor-pointer transition'></ThumbDownAltOutlined>}</button>{disLikes}
+                                <button disabled={disableDisLike} onClick={handleDisLike}>{disableDisLike ? <ThumbDownIcon></ThumbDownIcon> : <ThumbDownAltOutlined className={!user ? 'text-gray-600' : 'hover:text-primary-main cursor-pointer transition'}></ThumbDownAltOutlined>}</button>{disLikes}
                             </div>
                             <div className='flex gap-1'>
-                                <SmsOutlinedIcon className='hover:text-primary-main cursor-pointer transition'></SmsOutlinedIcon>{totalComments}
+                                <SmsOutlinedIcon className={!user ? 'text-gray-400' : 'hover:text-primary-main cursor-pointer transition'}></SmsOutlinedIcon>{totalComments}
                             </div>
-                            <div onClick={reportButton} className='flex gap-1 hover:text-red-500 text-red-600 cursor-pointer'>
-                                <ReportGmailerrorredIcon className='cursor-pointer transition'></ReportGmailerrorredIcon>Report Issue
+                            <div>
+                                {/* Report Section */}
+
+                                <button
+                                    type="button"
+                                    onClick={openModal}
+                                    disabled={!user}
+                                    className={!user ? 'text-gray-400' : 'cursor-pointer flex justify-center gap-1 font-medium text-red-500   px-2 hover:underline'}
+                                >
+                                    <ReportGmailerrorredIcon className='transition'></ReportGmailerrorredIcon> Report Issue
+                                </button>
+                                <Transition appear show={isOpen} as={Fragment}>
+                                    <Dialog as="div" className="z-10" onClose={closeModal}>
+                                        <Transition.Child
+                                            as={Fragment}
+                                            enter="ease-out duration-300"
+                                            enterFrom="opacity-0"
+                                            enterTo="opacity-100"
+                                            leave="ease-in duration-200"
+                                            leaveFrom="opacity-100"
+                                            leaveTo="opacity-0"
+                                        >
+                                            <div className="fixed inset-0 bg-black/25" />
+                                        </Transition.Child>
+
+                                        <div className="fixed inset-0 overflow-y-auto">
+                                            <div className="flex min-h-full items-center justify-center p-4 text-center">
+                                                <Transition.Child
+                                                    as={Fragment}
+                                                    enter="ease-out duration-300"
+                                                    enterFrom="opacity-0 scale-95"
+                                                    enterTo="opacity-100 scale-100"
+                                                    leave="ease-in duration-200"
+                                                    leaveFrom="opacity-100 scale-100"
+                                                    leaveTo="opacity-0 scale-95"
+                                                >
+                                                    <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+                                                        <form onSubmit={handleReportSubmit}>
+                                                            <div className="mx-auto text-2xl font-semibold text-center">Report Issue</div>
+                                                            <div className="w-full h-px bg-primary-text mt-4 mb-4"></div>
+
+                                                            <div className="mt-2">Your feedback<span className="text-red-600">*</span></div>
+                                                            <div className="px-4 border-2 border-primary-main py-2 bg-white rounded-lg dark:bg-gray-800">
+                                                                <label htmlFor="report" className="sr-only">Your feedback</label>
+                                                                <textarea id="report" name='report' rows="4" className="w-full px-0 text-sm text-gray-900 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400" placeholder='Write a feedback...' required></textarea>
+                                                            </div>
+                                                            <div className="flex gap-3">
+                                                                <button
+                                                                    type="submit"
+                                                                    className="text-white w-1/2 bg-blue-500 border-0 py-2 px-8 focus:outline-none hover:bg-blue-600 rounded-lg mt-4 text-lg"
+                                                                >
+                                                                    Send feedback
+                                                                </button>
+                                                                <button
+                                                                    onClick={closeModal}
+                                                                    type="reset"
+                                                                    className="text-primary-text w-1/2 bg-primary-bg2 border-2 border-primary-main py-2 px-8 focus:outline-none hover:bg-blue-200 rounded-lg mt-4 text-lg"
+                                                                >
+                                                                    Cancel
+                                                                </button>
+                                                            </div>
+                                                        </form>
+                                                    </Dialog.Panel>
+                                                </Transition.Child>
+                                            </div>
+                                        </div>
+                                    </Dialog>
+                                </Transition>
                             </div>
+
                         </div>
                     </div>
                 </div>
@@ -342,7 +441,7 @@ const SurveyDetails = () => {
                     <div className="p-2">Write a comment: (Only for pro user or, <Link to='/pricing' className="text-blue-600 font-medium">Buy Pro</Link>)</div>
                     <div className="px-4 py-2 bg-white rounded-t-lg dark:bg-gray-800">
                         <label htmlFor="comment" className="sr-only">Your comment</label>
-                        <textarea id="comment" name="comment" rows="4" className="w-full px-0 text-sm text-gray-900 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400" placeholder="Write a comment..." required></textarea>
+                        <textarea disabled={commenter} id="comment" name="comment" rows="4" className="w-full px-0 text-sm text-gray-900 bg-white border-0 dark:bg-gray-800 focus:ring-0 dark:text-white dark:placeholder-gray-400" placeholder={commenter ? ' Buy pro to comment...' : "Write a comment..."} required></textarea>
                     </div>
                     <div className="flex items-center justify-between px-3 py-2 border-t dark:border-gray-600">
                         <button disabled={commenter} type="submit" className="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-primary-main rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-500 hover:bg-blue-500">

@@ -82,7 +82,7 @@ const Users = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {loading ? <span className="font-medium text-lg my-2 mx-2">Please wait ...</span> :
+                        {loading ? <tr className="font-medium text-lg my-2 mx-2"><td>Please wait ...</td></tr> :
                             data?.map((user, index) => <UserDetails key={user?._id} user={user} index={index}></UserDetails>)
                         }
                     </tbody>

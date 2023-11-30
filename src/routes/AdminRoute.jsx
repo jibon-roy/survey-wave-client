@@ -6,11 +6,11 @@ import useRole from "../hooks/useRole";
 
 const AdminRoute = ({ children }) => {
     const { loading, user } = useAuthProvider();
-    const [role] = useRole()
+    const [role, isPending] = useRole()
     const location = useLocation()
     console.log(role)
 
-    if (loading)
+    if (loading || isPending)
         return <Placeholder>
             <Placeholder.Header image>
                 <Placeholder.Line />
@@ -24,10 +24,10 @@ const AdminRoute = ({ children }) => {
             </Placeholder.Paragraph>
         </Placeholder>
 
-    if (!user && !role === 'admin') {
-        return <Navigate to='/signUp' state={location?.state} replace></Navigate>
-    } else {
+    if (user && (role === 'admin' || role === 'surveyor')) {
         return children
+    } else {
+        return <Navigate to='/login' state={location?.state} replace></Navigate>
     }
 };
 

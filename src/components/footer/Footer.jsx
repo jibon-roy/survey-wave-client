@@ -30,16 +30,16 @@ const Footer = () => {
                         </nav>
                     </div>
                     <div className="lg:w-1/3 md:w-1/2 w-full px-4">
-                        <h2 className="title-font font-semibold tracking-widest text-md mb-3">Tour</h2>
+                        <h2 className="title-font font-semibold tracking-widest text-md mb-3">Contact</h2>
                         <nav className="list-none mb-10">
                             <li>
-                                <Link className="hover:underline text-sm hover:text-[#38B6FF]">Home</Link>
+                                <Link className="hover:underline text-sm hover:text-[#38B6FF]">Contact Us</Link>
                             </li>
                             <li>
-                                <Link className="hover:underline text-sm hover:text-[#38B6FF]">All surveys</Link>
+                                <Link className="hover:underline text-sm hover:text-[#38B6FF]">About Us</Link>
                             </li>
                             <li>
-                                <Link className="hover:underline text-sm hover:text-[#38B6FF]">Most voted surveys</Link>
+                                <Link className="hover:underline text-sm hover:text-[#38B6FF]">Community Guidelines</Link>
                             </li>
                             <li>
                                 <Link className="hover:underline text-sm hover:text-[#38B6FF]">Recent Surveys</Link>
@@ -47,19 +47,19 @@ const Footer = () => {
                         </nav>
                     </div>
                     <div className="lg:w-1/3 md:w-1/2 w-full px-4">
-                        <h2 className="title-font font-semibold tracking-widest text-md mb-3">Tour</h2>
+                        <h2 className="title-font font-semibold tracking-widest text-md mb-3">Explore</h2>
                         <nav className="list-none mb-10">
                             <li>
-                                <Link className="hover:underline text-sm hover:text-[#38B6FF]">Home</Link>
+                                <Link className="hover:underline text-sm hover:text-[#38B6FF]">Feedback</Link>
                             </li>
                             <li>
-                                <Link className="hover:underline text-sm hover:text-[#38B6FF]">All surveys</Link>
+                                <Link className="hover:underline text-sm hover:text-[#38B6FF]">Privacy Policy</Link>
                             </li>
                             <li>
-                                <Link className="hover:underline text-sm hover:text-[#38B6FF]">Most voted surveys</Link>
+                                <Link className="hover:underline text-sm hover:text-[#38B6FF]">Terms of Service</Link>
                             </li>
                             <li>
-                                <Link className="hover:underline text-sm hover:text-[#38B6FF]">Recent Surveys</Link>
+                                <Link className="hover:underline text-sm hover:text-[#38B6FF]">Blog</Link>
                             </li>
                         </nav>
                     </div>

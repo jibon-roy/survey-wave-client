@@ -10,7 +10,7 @@ const useRole = () => {
     const axiosSecure = useAxiosSecure();
     const { user } = useAuthProvider()
 
-    const { data: role } = useQuery({
+    const { data: role, isPending } = useQuery({
         queryKey: [user?.email, 'role'],
         queryFn: async () => {
             const res = await axiosSecure.get(`/check-role/${user.email}`)
@@ -18,7 +18,7 @@ const useRole = () => {
         }
     })
 
-    return [role]
+    return [role, isPending]
 };
 
 export default useRole;

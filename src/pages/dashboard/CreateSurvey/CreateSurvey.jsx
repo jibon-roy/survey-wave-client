@@ -34,7 +34,7 @@ const CreateSurvey = () => {
             deadline: deadline,
             publish: true,
             adminComment: '',
-            report: ''
+            report: []
         }
         console.log(surveyData)
         axiosSecure.post('/postSurvey', surveyData)

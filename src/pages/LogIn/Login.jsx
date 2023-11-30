@@ -2,7 +2,7 @@
 // import { Input } from 'postcss';
 import { FcGoogle } from "react-icons/fc";
 
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import CustomHeader from "../../components/customHeader/CustomHeader";
 import { Divider } from "@mui/material";
 import useAuthProvider from "../../hooks/useAuthProvider";
@@ -12,7 +12,8 @@ import Swal from "sweetalert2";
 
 
 const Login = () => {
-
+    const location = useLocation();
+    const navigate = useNavigate();
     const { logInWithEmailPass, gmailUser } = useAuthProvider()
 
     const handleSubmit = (e) => {
@@ -29,7 +30,7 @@ const Login = () => {
                             title: "Log In Success!",
                             text: "See You Again",
                             icon: "success"
-                        });
+                        }).then(() => navigate(location?.state ? location?.state : '/', { replace: true }))
                     }
 
             })
@@ -37,7 +38,7 @@ const Login = () => {
                 if (error)
                     Swal.fire({
                         title: "Opps...",
-                        text: "Something is wrong!",
+                        text: "Invalid email or password.",
                         icon: "error"
                     });
             })

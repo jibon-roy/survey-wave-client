@@ -18,6 +18,7 @@ import Users from "../pages/dashboard/Users/Users";
 import AllAdminSurveys from "../pages/dashboard/AllAdminSurveys/AllAdminSurveys";
 import Payments from "../pages/dashboard/Payments/Payments";
 import Error from "../pages/Error/Error";
+import AdminRoute from "./AdminRoute";
 
 
 
@@ -53,7 +54,7 @@ const router = createBrowserRouter([
     {
         path: '/dashboard',
         errorElement: <Error></Error>,
-        element: <DashboardLayout></DashboardLayout>,
+        element: <AdminRoute><DashboardLayout></DashboardLayout></AdminRoute>,
         children: [
             {
                 path: '/dashboard',
@@ -77,11 +78,11 @@ const router = createBrowserRouter([
             },
             {
                 path: '/dashboard/reports',
-                element: <Reports></Reports>
+                element: <AdminRoute><Reports></Reports></AdminRoute>
             },
             {
                 path: '/dashboard/payments',
-                element: <Payments></Payments>
+                element: <AdminRoute><Payments></Payments></AdminRoute>
             },
 
         ]

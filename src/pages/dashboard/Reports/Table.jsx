@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Dialog, Transition } from '@headlessui/react'
 import { Fragment } from 'react'
 import Comments from "../../SurveyDetails/Comments";
+import Rpt from "./Rpt";
 
 
 const Table = ({ surveyDetail, index, isLoading }) => {
@@ -78,10 +79,12 @@ const Table = ({ surveyDetail, index, isLoading }) => {
                                                 <div className="text-red-600 font-semibold mt-4 mr-2">Admin Report:</div>
                                                 <div className="text-primary-text mb-2 mr-2">{surveyDetail?.adminComment ? surveyDetail?.adminComment : 'Nice work.'}</div>
                                                 <div className="text-red-600 mt-4 font-semibold mr-2">User Report:</div>
-                                                <div className="text-primary-text mb-2 mr-2">{surveyDetail?.report ? surveyDetail?.report : 'No reports.'}</div>
+                                                <div className="text-primary-text mb-2 mr-2">{surveyDetail?.report?.length ?
+                                                    surveyDetail?.report?.map((rpt, idx) => <Rpt key={idx} rpt={rpt}></Rpt>)
+                                                    : 'No reports.'}</div>
                                                 <div className="text-red-600 mt-4 font-semibold mr-2">Comments:</div>
-                                                <div className="text-primary-text mb-2 mr-2">{surveyDetail?.totalComments.length ?
-                                                    surveyDetail?.totalComments?.map(comment => <Comments key={comment?.userEmail} comment={comment}></Comments>)
+                                                <div className="text-primary-text mb-2 mr-2">{surveyDetail?.totalComments?.length ?
+                                                    surveyDetail?.totalComments?.map((comment, index) => <Comments key={index} comment={comment}></Comments>)
                                                     : 'No Comments'}</div>
                                             </div>
                                             <div>

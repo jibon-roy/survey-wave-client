@@ -12,6 +12,7 @@ import Swal from "sweetalert2";
 // import { updateCurrentUser } from "firebase/auth";
 import { auth } from "../../firebase/firebase";
 import { updateProfile } from "firebase/auth";
+import { useState } from "react";
 
 // import { TextField } from "@mui/material";
 
@@ -20,6 +21,7 @@ const SignUp = () => {
 
     const { createUserWithEmailPass, gmailUser } = useAuthProvider()
     const axiosPublic = useAxiosPublic()
+    const [passwordError, setPasswordError] = useState('');
     // const imgHostingKey = import.meta.env.VITE_IMAGE_KEY
     // console.log(imgHostingKey)
     // const imgHostingApi = `https://api.imgbb.com/1/upload?key=${imgHostingKey}`
@@ -32,6 +34,18 @@ const SignUp = () => {
         const name = data.name;
         const image = data.image;
         const password = data.password;
+        if (password.length < 6) {
+            setPasswordError('Password is less then 6 Character.');
+            return;
+        } else if (!/[A-Z]/.test(password)) {
+            setPasswordError('Password does\'nt have a capital letter.')
+            return;
+        } else if (!/[@#$%^&+=]/.test(password)) {
+            setPasswordError('Password does\'nt have a special character.')
+            return;
+        } else {
+            setPasswordError('');
+        }
         const role = 'user'
         const userData = { name, email, image, role }
 
@@ -59,7 +73,7 @@ const SignUp = () => {
                 if (error)
                     Swal.fire({
                         title: "Opps...",
-                        text: "Something is wrong!",
+                        text: "Email already exist or anything wrong",
                         icon: "error"
                     });
             })
@@ -131,6 +145,9 @@ const SignUp = () => {
                                 className="w-full bg-white rounded border border-gray-300 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
                             />
                         </div>
+                        <label className="label">
+                            <div className="text-base text-red-600">{passwordError}</div>
+                        </label>
                         <button
                             type="submit"
                             className="text-white w-full bg-blue-500 border-0 py-2 px-8 focus:outline-none hover:bg-blue-600 rounded text-lg"

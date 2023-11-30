@@ -41,7 +41,7 @@ const Table = ({ survey, index, refetch }) => {
             category: category,
             deadline: deadline,
         }
-        console.log(updateSurvey)
+        // console.log(updateSurvey)
         axiosSecure.patch(`/updateSurvey/${survey?._id}`, updateSurvey)
             .then(res => {
                 if (res.data) {

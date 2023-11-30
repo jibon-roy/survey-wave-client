@@ -147,7 +147,7 @@ const DashboardLayout = () => {
                             </NavLink>
                         </li>
                         <li>
-                            <div onClick={logOut} className="flex cursor-pointer items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                            <div onClick={() => logOut().then(() => location.href = '/login')} className="flex cursor-pointer items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                                 <CiLogout className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" ></CiLogout>
                                 <span className="flex-1 ms-3 whitespace-nowrap">Log Out</span>
                             </div>

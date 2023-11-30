@@ -3,6 +3,7 @@ import MyBarChart from "./MyBarChart";
 import { useState } from "react";
 import { Dialog, Transition } from '@headlessui/react'
 import { Fragment } from 'react'
+import Comments from "../../SurveyDetails/Comments";
 
 
 const Table = ({ surveyDetail, index, isLoading }) => {
@@ -67,13 +68,21 @@ const Table = ({ surveyDetail, index, isLoading }) => {
                                     <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
                                         <div>
                                             <div className="h-64 overflow-y-auto">
+
                                                 <div className="mx-auto text-2xl font-semibold text-center">Reports</div>
+                                                <div className="w-[50%] mx-auto h-px bg-primary-text mt-2"></div>
+                                                <div className="flex gap-4 items-center mt-2 justify-center">
+                                                    <div className="font-semibold text-primary-main">Final Result:</div>
+                                                    <div className="text-primary-text">{<div className="flex gap-2"><p className="font-semibold text-green-500">Yes: {surveyDetail?.totalTrueVote.length}</p> <p className="font-semibold text-red-500">No: {surveyDetail?.totalFalseVote.length}</p></div>}</div>
+                                                </div>
                                                 <div className="text-red-600 font-semibold mt-4 mr-2">Admin Report:</div>
                                                 <div className="text-primary-text mb-2 mr-2">{surveyDetail?.adminComment ? surveyDetail?.adminComment : 'Nice work.'}</div>
                                                 <div className="text-red-600 mt-4 font-semibold mr-2">User Report:</div>
                                                 <div className="text-primary-text mb-2 mr-2">{surveyDetail?.report ? surveyDetail?.report : 'No reports.'}</div>
                                                 <div className="text-red-600 mt-4 font-semibold mr-2">Comments:</div>
-                                                <div className="text-primary-text mb-2 mr-2">{surveyDetail?.totalComments.length ? surveyDetail?.totalComments : 'No Comments'}</div>
+                                                <div className="text-primary-text mb-2 mr-2">{surveyDetail?.totalComments.length ?
+                                                    surveyDetail?.totalComments?.map(comment => <Comments key={comment?.userEmail} comment={comment}></Comments>)
+                                                    : 'No Comments'}</div>
                                             </div>
                                             <div>
                                                 <div className="flex justify-center">

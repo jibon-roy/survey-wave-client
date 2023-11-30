@@ -59,7 +59,7 @@ export default function Navbar(props) {
         setAnchorElUser(null);
     };
     // Settings for Profile
-    const settings = [<button key={1} onClick={logOut}>Log Out</button>];
+    const settings = [<button key={1} onClick={() => logOut().then(() => location.href = '/login')}>Log Out</button>];
 
     const pages = <>
         <div className='lg:hidden'>
@@ -106,7 +106,7 @@ export default function Navbar(props) {
             <div className='px-1 py-0 flex border rounded-lg border-primary-text items-center capitalize font-semibold gap-1'>{role}</div>
             : <div className='link font-semibold text-md'><NavLink to='/pricing'><button className='p-2 flex items-center gap-1'><FcKey /> Buy Pro</button></NavLink></div>}
 
-        {user && <div className='link font-semibold text-md'><button onClick={logOut} className='p-2'>Logout</button></div>}
+        {user && <div className='link font-semibold text-md'><button onClick={() => logOut().then(() => location.href = '/login')} className='p-2'>Logout</button></div>}
     </>
 
 

@@ -5,6 +5,7 @@ import Swal from "sweetalert2";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
 
 
+
 export const AuthContext = createContext(null);
 
 const AuthProvider = ({ children }) => {
@@ -12,7 +13,6 @@ const AuthProvider = ({ children }) => {
     const [user, setUser] = useState();
     const [loading, setLoading] = useState(true);
     const googleProvider = new GoogleAuthProvider();
-
     // Create user with email and password
     const createUserWithEmailPass = (email, password) => {
         setLoading(true);
@@ -58,7 +58,7 @@ const AuthProvider = ({ children }) => {
 
     const logOut = () => {
         return signOut(auth)
-            .then()
+
     }
 
     // Check User

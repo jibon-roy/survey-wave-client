@@ -2,7 +2,7 @@
 ## If you like my project you can follow me.
 
 
-## 5 projects features:
+## Projects features:
 
 - User can easily filter survey by title, category, by vote.
 - To be a pro user and to get advanced facility an user can purchase premium package.
@@ -20,4 +20,4 @@
 - On update operation
 - Verify token, admin, pro and user 
 
-## My survey Live Link: [Survey Wave](https://survey-wave-site.web.app/)
+## My survey Live Link: [Survey Wave](https://survey-wave-site.web.app)

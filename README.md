@@ -1,7 +1,6 @@
 # Hey, welcome to my Survey wave website project
 ## If you like my project you can follow me.
 
-
 ## Projects features:
 
 - User can easily filter survey by title, category, by vote.
